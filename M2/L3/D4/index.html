@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>FitMeal - Crear plan semanal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #2b7a78;
+      color: #ffffff;
+      padding: 16px 24px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 24px auto;
+      padding: 16px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      border-radius: 8px;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .task-instructions {
+      background-color: #e0f7f3;
+      border-left: 4px solid #2b7a78;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .day-card {
+      border: 1px solid #dddddd;
+      border-radius: 6px;
+      padding: 12px;
+      background-color: #fafafa;
+    }
+
+    .day-card h3 {
+      margin-top: 0;
+      font-size: 16px;
+      color: #2b7a78;
+    }
+
+    .meal-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .meal-item label {
+      flex: 0 0 80px;
+      font-size: 13px;
+    }
+
+    .meal-item input {
+      flex: 1;
+      padding: 6px 8px;
+      font-size: 13px;
+    }
+
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 4px;
+      padding: 10px 16px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .primary-btn {
+      background-color: #2b7a78;
+      color: #ffffff;
+    }
+
+    .secondary-btn {
+      background-color: #def2f1;
+      color: #17252a;
+    }
+
+    .summary {
+      margin-top: 24px;
+      padding: 12px 16px;
+      background-color: #f0f0f0;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #777777;
+      padding: 16px 0 24px;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #777777;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FitMeal</h1>
+    <p>Crea tu primer plan semanal de comidas</p>
+  </header>
+
+  <div class="container">
+    <div class="task-instructions">
+      <strong>Tarea del usuario:</strong> Crea un plan de comidas para 7 días con al menos 2 comidas por día
+      <br>
+      Imagina que quieres organizar tu alimentación para toda la semana usando esta aplicación
+    </div>
+
+    <h2>Plan semanal</h2>
+    <p>Completa las comidas para cada día de la semana</p>
+
+    <div class="days-grid">
+      <!-- Puedes duplicar este bloque para los 7 días -->
+      <div class="day-card">
+        <h3>Lunes</h3>
+        <div class="meal-item">
+          <label>Desayuno</label>
+          <input type="text" placeholder="Ej: Avena con fruta">
+        </div>
+        <div class="meal-item">
+          <label>Almuerzo</label>
+          <input type="text" placeholder="Ej: Pollo con ensalada">
+        </div>
+        <div class="meal-item">
+          <label>Cena</label>
+          <input type="text" placeholder="Ej: Sopa de verduras">
+        </div>
+      </div>
+
+      <div class="day-card">
+        <h3>Martes</h3>
+        <div class="meal-item">
+          <label>Desayuno</label>
+          <input type="text">
+        </div>
+        <div class="meal-item">
+          <label>Almuerzo</label>
+          <input type="text">
+        </div>
+        <div class="meal-item">
+          <label>Cena</label>
+          <input type="text">
+        </div>
+      </div>
+
+      <div class="day-card">
+        <h3>Miércoles</h3>
+        <div class="meal-item">
+          <label>Desayuno</label>
+          <input type="text">
+        </div>
+        <div class="meal-item">
+          <label>Almuerzo</label>
+          <input type="text">
+        </div>
+        <div class="meal-item">
+          <label>Cena</label>
+          <input type="text">
+        </div>
+      </div>
+
+      <div class="day-card">
+        <h3>Jueves</h3>
+        <div class="meal-item">
+          <label>Desayuno</label>
+          <input type="text">
+        </div>
+        <div class="meal-item">
+          <label>Almuerzo</label>
+          <input type="text">
+        </div>
+        <div class="meal-item">
+          <label>Cena</label>
+          <input type="text">
+        </div>
+      </div>
+
+      <div class="day-card">
+        <h3>Viernes</h3>
+        <div class="meal-item">
+          <label>Desayuno</label>
+          <input type="text">
+        </div>
+        <div class="meal-item">
+          <label>Almuerzo</label>
+          <input type="text">
+        </div>
+        <div class="meal-item">
+          <label>Cena</label>
+          <input type="text">
+        </div>
+      </div>
+
+      <div class="day-card">
+        <h3>Sábado</h3>
+        <div class="meal-item">
+          <label>Desayuno</label>
+          <input type="text">
+        </div>
+        <div class="meal-item">
+          <label>Almuerzo</label>
+          <input type="text">
+        </div>
+        <div class="meal-item">
+          <label>Cena</label>
+          <input type="text">
+        </div>
+      </div>
+
+      <div class="day-card">
+        <h3>Domingo</h3>
+        <div class="meal-item">
+          <label>Desayuno</label>
+          <input type="text">
+        </div>
+        <div class="meal-item">
+          <label>Almuerzo</label>
+          <input type="text">
+        </div>
+        <div class="meal-item">
+          <label>Cena</label>
+          <input type="text">
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="primary-btn">Guardar plan semanal</button>
+      <button class="secondary-btn">Limpiar formulario</button>
+    </div>
+
+    <div class="summary">
+      <strong>Nota para el estudiante que aplica la prueba:</strong>
+      <p>
+        Usa un cronómetro para medir cuánto tarda la persona en completar el plan semanal
+        y anota si lo logra o no. Después de que presione "Guardar plan semanal" pídele que
+        complete la encuesta en Google Forms.
+      </p>
+      <p class="hint">
+        Esta información se usará para medir eficacia, eficiencia y satisfacción de la aplicación.
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    Prototipo educativo de usabilidad - Curso UX · Caso FitMeal
+  </footer>
+</body>
+</html>
