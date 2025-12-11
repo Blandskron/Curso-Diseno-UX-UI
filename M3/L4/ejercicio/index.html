@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Oficina Virtual de Trámites Municipales</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+    }
+    header {
+      background: #004f7a;
+      color: white;
+      padding: 10px 20px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+    nav {
+      background: #003654;
+      color: white;
+      padding: 5px 20px;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+    nav a {
+      color: white;
+      margin-right: 15px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      padding: 20px;
+    }
+    .alert {
+      background: #ffe8e8;
+      color: #c70000;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #c70000;
+      font-size: 13px;
+    }
+    .card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 3px;
+      box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+    .btn {
+      padding: 8px 15px;
+      background: #004f7a;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+    .btn-secondary {
+      background: #aaa;
+    }
+    .form-control {
+      display: block;
+      width: 100%;
+      padding: 6px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    small {
+      font-size: 12px;
+      color: #777;
+    }
+    footer {
+      background: #eee;
+      padding: 10px 20px;
+      font-size: 12px;
+      color: #555;
+      text-align: right;
+    }
+    .link-like-button {
+      display: inline-block;
+      padding: 8px 15px;
+      border: 1px solid #004f7a;
+      color: #004f7a;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Oficina Virtual de Trámites Municipales</h1>
+  </header>
+
+  <nav>
+    <a href="#">Inicio</a>
+    <a href="#">Trámites</a>
+    <a href="#">Pagos</a>
+    <a href="#">Servicios</a>
+    <a href="#">FAQ</a>
+  </nav>
+
+  <div class="container">
+    <div class="alert">
+      Sistema operativo: OK – Estado proceso: CÓDIGO 200 – Usuario: NO VALIDADO  
+      (Si aparece este mensaje, no significa que su pago esté listo).
+    </div>
+
+    <div class="card">
+      <h2>PAGUE SUS COSAS AQUÍ</h2>
+      <p>
+        Utilice el siguiente formulario para realizar el pago de lo que corresponda.
+        Si no sabe qué es, igualmente continúe.
+      </p>
+      <form>
+        <!-- No hay etiquetas claras, solo placeholders -->
+        <input class="form-control" type="text" placeholder="Nombre" />
+        <input class="form-control" type="text" placeholder="ID" />
+        <input class="form-control" type="text" placeholder="Monto" />
+        <!-- No se indica la moneda, ni si son impuestos, contribuciones, etc. -->
+        <select class="form-control">
+          <option>Seleccione una opción</option>
+          <option value="1">Opción 1</option>
+          <option value="2">Opción 2</option>
+        </select>
+
+        <!-- Botón ambiguo -->
+        <button class="btn" type="button">Procesar</button>
+        <button class="btn btn-secondary" type="button">Volver</button>
+      </form>
+      <small>
+        Nota: Si algo falla, intente de nuevo más tarde. No se mostrarán mensajes de error.
+      </small>
+    </div>
+
+    <div class="card">
+      <h2>AGENDE UNA HORA (NO DISPONIBLE PERO IGUAL APARECE)</h2>
+      <p>
+        Aquí debería poder agendar una hora para atención presencial, pero por ahora este
+        módulo no está configurado. De todas formas, haga clic para intentarlo:
+      </p>
+      <!-- Enlace con apariencia de botón, no queda claro qué hace -->
+      <a href="#" class="link-like-button">Agendar hora</a>
+      <p>
+        Si no pasa nada, significa que el sistema está ocupado o su hora fue agendada,
+        pero no se mostrará confirmación.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Horario</h2>
+      <p>
+        Atendemos casi siempre. Revise en persona la cartelera de la municipalidad
+        para saber horarios concretos.
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    Municipio X – Todos los derechos reservados – Versión interna 0.3.2-dev
+  </footer>
+</body>
+</html>
