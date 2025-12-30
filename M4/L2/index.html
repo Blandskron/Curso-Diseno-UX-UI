@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Header Navigation – Tree Testing (Expandido)</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif}
+    body{background:#f5f6f7;color:#222}
+
+    header{
+      background:#fff;
+      border-bottom:1px solid #ddd;
+      padding:0 20px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      height:64px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:200px;
+    }
+    .brand .logo{
+      width:36px;height:36px;border:2px solid #222;border-radius:10px;
+      display:grid;place-items:center;font-weight:800;
+    }
+    .brand .name{font-weight:800;letter-spacing:.2px}
+
+    .search{
+      flex:1;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      max-width:680px;
+    }
+    .search input{
+      width:100%;
+      padding:10px 12px;
+      border:1px solid #d7d7d7;
+      border-radius:12px;
+      outline:none;
+      background:#fafafa;
+    }
+    .search button{
+      padding:10px 12px;
+      border:1px solid #d7d7d7;
+      border-radius:12px;
+      background:#fff;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .search button:hover{background:#f2f2f2}
+
+    .actions{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .pill{
+      text-decoration:none;
+      color:#222;
+      border:1px solid #d7d7d7;
+      padding:8px 10px;
+      border-radius:999px;
+      font-weight:650;
+      background:#fff;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .pill:hover{background:#f2f2f2}
+    .pill.primary{border-color:#222}
+    .pill.danger{border-color:#c44;color:#c44}
+    .pill small{opacity:.75;font-weight:600}
+
+    /* NAV BAR (mega-like simple) */
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      height:52px;
+    }
+
+    .nav > ul{
+      display:flex;
+      list-style:none;
+      gap:18px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .nav > ul > li > a{
+      text-decoration:none;
+      color:#222;
+      font-weight:750;
+      padding:10px 8px;
+      display:block;
+      border-radius:10px;
+    }
+    .nav > ul > li > a:hover{background:#f2f2f2}
+
+    .nav li{position:relative}
+
+    /* Dropdown base */
+    .dropdown{
+      position:absolute;
+      top:100%;
+      left:0;
+      background:#fff;
+      border:1px solid #ddd;
+      border-radius:14px;
+      min-width:270px;
+      display:none;
+      list-style:none;
+      padding:8px 0;
+      z-index:1000;
+      box-shadow:0 10px 24px rgba(0,0,0,.08);
+    }
+
+    .dropdown li a{
+      padding:10px 14px;
+      display:block;
+      text-decoration:none;
+      color:#333;
+      font-weight:650;
+      white-space:nowrap;
+    }
+    .dropdown li a:hover{background:#f3f3f3}
+
+    /* Second/Third level dropdown */
+    .dropdown .dropdown{
+      left:100%;
+      top:0;
+      margin-left:6px;
+    }
+
+    /* Hover logic */
+    .nav li:hover > .dropdown{display:block}
+
+    /* Visual cues */
+    .has-children > a::after{content:" ▾";font-size:.85em;opacity:.9}
+    .has-sub > a::after{content:" ▸";float:right;opacity:.9}
+
+    /* Divider inside dropdown */
+    .dd-divider{
+      height:1px;background:#eee;margin:6px 10px;
+    }
+
+    /* Simple “utility links” row */
+    .utility{
+      margin-left:auto;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .utility a{
+      text-decoration:none;color:#222;font-weight:700;
+      padding:8px 10px;border-radius:10px;
+    }
+    .utility a:hover{background:#f2f2f2}
+
+    @media (max-width: 980px){
+      .search{display:none;}
+      .brand{min-width:auto}
+      .nav{height:auto;padding-bottom:10px}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">BT</div>
+      <div class="name">TechStore</div>
+    </div>
+
+    <div class="search">
+      <input type="search" placeholder="Buscar productos, marcas, categorías..." aria-label="Buscar"/>
+      <button type="button">Buscar</button>
+    </div>
+
+    <div class="actions">
+      <a class="pill" href="#"><span>❓</span>Ayuda</a>
+      <a class="pill" href="#"><span>📦</span>Mis pedidos</a>
+      <a class="pill" href="#"><span>❤️</span>Favoritos</a>
+      <a class="pill primary" href="#"><span>🛒</span>Carrito <small>(0)</small></a>
+
+      <!-- Auth actions -->
+      <a class="pill primary" href="#" id="loginBtn">Login</a>
+      <a class="pill danger" href="#" id="logoutBtn">Logout</a>
+    </div>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <nav class="nav" aria-label="Navegación principal">
+    <ul>
+      <li><a href="#">Home</a></li>
+
+      <!-- EXPANDIDO desde tu árbol -->
+      <li class="has-children">
+        <a href="#">Computadores y tablet</a>
+        <ul class="dropdown">
+
+          <li class="has-sub">
+            <a href="#">Notebook</a>
+            <ul class="dropdown">
+              <li><a href="#">Ultrabooks</a></li>
+              <li><a href="#">Gaming</a></li>
+              <li><a href="#">2 en 1 (Convertible)</a></li>
+              <li><a href="#">MacBook / Apple</a></li>
+              <li><a href="#">Accesorios para Notebook</a></li>
+              <li class="dd-divider"></li>
+              <li><a href="#">Ofertas Notebook</a></li>
+            </ul>
+          </li>
+
+          <li class="has-sub">
+            <a href="#">Tablet</a>
+            <ul class="dropdown">
+              <li><a href="#">Android</a></li>
+              <li><a href="#">iPad / Apple</a></li>
+              <li><a href="#">Tablets para niños</a></li>
+              <li><a href="#">Lápices / Stylus</a></li>
+              <li><a href="#">Fundas y teclados</a></li>
+              <li class="dd-divider"></li>
+              <li><a href="#">Ofertas Tablet</a></li>
+            </ul>
+          </li>
+
+          <li class="has-sub">
+            <a href="#">Escritorio</a>
+            <ul class="dropdown">
+              <!-- (tu imagen tenía 2 sub “Escritorio”; ahora lo hacemos más real) -->
+              <li class="has-sub">
+                <a href="#">PC de Escritorio</a>
+                <ul class="dropdown">
+                  <li><a href="#">Oficina / Hogar</a></li>
+                  <li><a href="#">Gaming</a></li>
+                  <li><a href="#">Workstation (Diseño/3D)</a></li>
+                  <li><a href="#">All-in-One</a></li>
+                </ul>
+              </li>
+
+              <li class="has-sub">
+                <a href="#">Monitores</a>
+                <ul class="dropdown">
+                  <li><a href="#">24''–27''</a></li>
+                  <li><a href="#">UltraWide</a></li>
+                  <li><a href="#">4K / HDR</a></li>
+                  <li><a href="#">Gaming 144Hz+</a></li>
+                </ul>
+              </li>
+
+              <li class="has-sub">
+                <a href="#">Periféricos</a>
+                <ul class="dropdown">
+                  <li><a href="#">Teclados</a></li>
+                  <li><a href="#">Mouse</a></li>
+                  <li><a href="#">Audífonos</a></li>
+                  <li><a href="#">Webcams</a></li>
+                  <li><a href="#">Mousepads</a></li>
+                </ul>
+              </li>
+
+              <li class="dd-divider"></li>
+              <li><a href="#">Ofertas Escritorio</a></li>
+            </ul>
+          </li>
+
+          <li class="has-sub">
+            <a href="#">Servidores</a>
+            <ul class="dropdown">
+              <li><a href="#">Rack</a></li>
+              <li><a href="#">Tower</a></li>
+              <li><a href="#">NAS / Almacenamiento</a></li>
+              <li><a href="#">Redes (Switch/Router)</a></li>
+              <li class="has-sub">
+                <a href="#">Accesorios</a>
+                <ul class="dropdown">
+                  <li><a href="#">UPS / Respaldo</a></li>
+                  <li><a href="#">Cables y patch cords</a></li>
+                  <li><a href="#">Rieles / Bandejas</a></li>
+                  <li><a href="#">Ventilación</a></li>
+                </ul>
+              </li>
+              <li class="dd-divider"></li>
+              <li><a href="#">Ofertas Servidores</a></li>
+            </ul>
+          </li>
+
+          <li class="dd-divider"></li>
+          <li><a href="#">Recomendados</a></li>
+          <li><a href="#">Lo más vendido</a></li>
+        </ul>
+      </li>
+
+      <!-- NUEVAS ramas -->
+      <li class="has-children">
+        <a href="#">Smartphone</a>
+        <ul class="dropdown">
+          <li class="has-sub">
+            <a href="#">Marcas</a>
+            <ul class="dropdown">
+              <li><a href="#">Samsung</a></li>
+              <li><a href="#">Apple (iPhone)</a></li>
+              <li><a href="#">Xiaomi</a></li>
+              <li><a href="#">Motorola</a></li>
+              <li><a href="#">Honor</a></li>
+            </ul>
+          </li>
+
+          <li class="has-sub">
+            <a href="#">Gama</a>
+            <ul class="dropdown">
+              <li><a href="#">Entrada</a></li>
+              <li><a href="#">Media</a></li>
+              <li><a href="#">Alta</a></li>
+              <li><a href="#">Plegables</a></li>
+            </ul>
+          </li>
+
+          <li class="has-sub">
+            <a href="#">Accesorios</a>
+            <ul class="dropdown">
+              <li><a href="#">Fundas</a></li>
+              <li><a href="#">Cargadores</a></li>
+              <li><a href="#">Cables</a></li>
+              <li><a href="#">Protectores de pantalla</a></li>
+              <li><a href="#">Power banks</a></li>
+            </ul>
+          </li>
+
+          <li class="dd-divider"></li>
+          <li><a href="#">Ofertas Smartphone</a></li>
+        </ul>
+      </li>
+
+      <li class="has-children">
+        <a href="#">Partes y piezas</a>
+        <ul class="dropdown">
+
+          <li class="has-sub">
+            <a href="#">Componentes PC</a>
+            <ul class="dropdown">
+              <li class="has-sub">
+                <a href="#">Procesadores (CPU)</a>
+                <ul class="dropdown">
+                  <li><a href="#">Intel</a></li>
+                  <li><a href="#">AMD</a></li>
+                  <li><a href="#">Coolers</a></li>
+                </ul>
+              </li>
+
+              <li class="has-sub">
+                <a href="#">Tarjetas de video (GPU)</a>
+                <ul class="dropdown">
+                  <li><a href="#">NVIDIA</a></li>
+                  <li><a href="#">AMD</a></li>
+                  <li><a href="#">Soportes / Brackets</a></li>
+                </ul>
+              </li>
+
+              <li class="has-sub">
+                <a href="#">Memoria RAM</a>
+                <ul class="dropdown">
+                  <li><a href="#">DDR4</a></li>
+                  <li><a href="#">DDR5</a></li>
+                  <li><a href="#">Kits (2x / 4x)</a></li>
+                </ul>
+              </li>
+
+              <li class="has-sub">
+                <a href="#">Almacenamiento</a>
+                <ul class="dropdown">
+                  <li><a href="#">SSD NVMe</a></li>
+                  <li><a href="#">SSD SATA</a></li>
+                  <li><a href="#">HDD</a></li>
+                  <li><a href="#">Externos</a></li>
+                </ul>
+              </li>
+
+              <li><a href="#">Placas madre</a></li>
+              <li><a href="#">Fuentes de poder</a></li>
+              <li><a href="#">Gabinetes</a></li>
+            </ul>
+          </li>
+
+          <li class="has-sub">
+            <a href="#">Impresión</a>
+            <ul class="dropdown">
+              <li><a href="#">Impresoras</a></li>
+              <li><a href="#">Tintas / Tóner</a></li>
+              <li><a href="#">Papel / Etiquetas</a></li>
+            </ul>
+          </li>
+
+          <li class="has-sub">
+            <a href="#">Audio y video</a>
+            <ul class="dropdown">
+              <li><a href="#">Parlantes</a></li>
+              <li><a href="#">Micrófonos</a></li>
+              <li><a href="#">Cámaras</a></li>
+              <li><a href="#">Capturadoras</a></li>
+            </ul>
+          </li>
+
+          <li class="dd-divider"></li>
+          <li><a href="#">Ofertas Partes y piezas</a></li>
+        </ul>
+      </li>
+
+      <!-- Navegación extra -->
+      <li class="has-children">
+        <a href="#">Servicios</a>
+        <ul class="dropdown">
+          <li><a href="#">Armado de PC</a></li>
+          <li><a href="#">Instalación de software</a></li>
+          <li><a href="#">Soporte técnico</a></li>
+          <li><a href="#">Garantías y devoluciones</a></li>
+        </ul>
+      </li>
+
+      <li class="has-children">
+        <a href="#">Empresas</a>
+        <ul class="dropdown">
+          <li><a href="#">Ventas corporativas</a></li>
+          <li><a href="#">Cotizar</a></li>
+          <li><a href="#">Facturación</a></li>
+          <li><a href="#">Convenios</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="utility">
+      <a href="#">Nuevos</a>
+      <a href="#">Ofertas</a>
+      <a href="#">Top ventas</a>
+    </div>
+  </nav>
+</header>
+
+</body>
+</html>
