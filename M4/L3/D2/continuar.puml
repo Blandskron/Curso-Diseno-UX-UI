@@ -1,0 +1,46 @@
+PA4 --> EF6
+PA5 --> EF7
+PA6 --> EF7
+PA1 --> EF9
+PA9 --> EF10
+PA8 --> EF11
+PA10 --> EF11
+PA7 --> PA8
+
+PA4 --> MC1
+PA3 --> MC7
+PA10 --> MC2
+PA10 --> MC3
+
+rectangle "Falla Pago\nReintento o otro medio" as FAIL_PAY
+rectangle "Falla Video\nBaja calidad o descarga" as FAIL_VID
+rectangle "Falla Evaluacion\nRepasar y reintentar" as FAIL_EXAM
+rectangle "Falla Certificado\nReemision y soporte" as FAIL_CERT
+
+AC4 --> FAIL_PAY
+FAIL_PAY --> MC5
+MC5 --> PE4
+PE4 --> TB4
+TB4 --> PA3
+PA3 --> EF4
+
+AC6 --> FAIL_VID
+FAIL_VID --> MC4
+MC4 --> PE4
+PE4 --> TB5
+TB5 --> PA4
+PA4 --> EF6
+
+AC9 --> FAIL_EXAM
+FAIL_EXAM --> MC4
+MC4 --> PE2
+PE2 --> TB6
+TB6 --> PA5 
+PA5 --> EF9
+
+AC10 --> FAIL_CERT
+FAIL_CERT --> MC5
+MC5 --> PE4
+PE4 --> TB7
+TB7 --> PA9
+PA9 --> EF10

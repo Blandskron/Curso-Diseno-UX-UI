@@ -1,0 +1,222 @@
+@startuml
+left to right direction
+
+package "EF Evidencia Fisica" {
+  rectangle "S1 Landing\nCursos y propuesta" as EF1
+  rectangle "S2 Pagina Curso\nTemario y trailer" as EF2
+  rectangle "S3 Registro/Login\nPantalla acceso" as EF3
+  rectangle "S4 Checkout\nPlan y pago" as EF4
+  rectangle "S5 Onboarding\nDiagnostico y metas" as EF5
+  rectangle "S6 Aula\nVideo y recursos" as EF6
+  rectangle "S7 Practica\nQuizzes y proyectos" as EF7
+  rectangle "S8 Comunidad\nForo y Q&A" as EF8
+  rectangle "S9 Evaluacion\nExamen final" as EF9
+  rectangle "S10 Certificado\nShare y badge" as EF10
+  rectangle "S11 Retencion\nRecomendaciones" as EF11
+}
+
+package "AC Acciones del Cliente" {
+  rectangle "S1 Descubre\nExplora cursos" as AC1
+  rectangle "S2 Evalua\nCompara y decide" as AC2
+  rectangle "S3 Accede\nCrea cuenta o entra" as AC3
+  rectangle "S4 Paga\nSuscribe o compra" as AC4
+  rectangle "S5 Define metas\nSelecciona ruta" as AC5
+  rectangle "S6 Aprende\nVe lecciones" as AC6
+  rectangle "S7 Practica\nEntrega y responde" as AC7
+  rectangle "S8 Participa\nPregunta y ayuda" as AC8
+  rectangle "S9 Rinde\nAprueba o repite" as AC9
+  rectangle "S10 Certifica\nDescarga y comparte" as AC10
+  rectangle "S11 Continua\nSigue otra ruta" as AC11
+}
+
+package "EX Expectativas" {
+  rectangle "S1 Confianza\nMarca clara" as EX1
+  rectangle "S2 Valor\nTemario serio" as EX2
+  rectangle "S3 Friccion baja\nAcceso rapido" as EX3
+  rectangle "S4 Pago seguro\nTransparencia" as EX4
+  rectangle "S5 Guia\nRuta personalizada" as EX5
+  rectangle "S6 Calidad\nSin cortes" as EX6
+  rectangle "S7 Feedback\nCorreccion justa" as EX7
+  rectangle "S8 Respuesta\nComunidad activa" as EX8
+  rectangle "S9 Certidumbre\nCriterios claros" as EX9
+  rectangle "S10 Reconocimiento\nCredencial valida" as EX10
+  rectangle "S11 Progreso\nSiguiente paso" as EX11
+}
+
+package "MC Medio de Contacto" {
+  rectangle "Web/App\nNavegacion" as MC1
+  rectangle "Email\nConfirmaciones" as MC2
+  rectangle "Notificaciones\nPush/In-app" as MC3
+  rectangle "Chat IA\nTutor y soporte" as MC4
+  rectangle "Soporte\nTickets" as MC5
+  rectangle "Comunidad\nForo/Discord" as MC6
+  rectangle "Pagos\nGateway" as MC7
+}
+
+package "PE Personal en Escena" {
+  rectangle "Instructor\nClases y criterios" as PE1
+  rectangle "Mentor/Soporte\nAcademico" as PE2
+  rectangle "Community\nModeracion visible" as PE3
+  rectangle "Soporte\nAtencion cliente" as PE4
+}
+
+package "TB Tras Bambalinas" {
+  rectangle "Curacion contenido\nProgramas y rutas" as TB1
+  rectangle "Produccion\nEdicion y QA" as TB2
+  rectangle "Moderacion\nReglas y sanciones" as TB3
+  rectangle "Operaciones\nPagos y facturacion" as TB4
+  rectangle "Soporte tecnico\nIncidentes" as TB5
+  rectangle "Revision\nRubricas y checks" as TB6
+  rectangle "Emision\nCertificados" as TB7
+}
+
+package "PA Procesos de Apoyo" {
+  rectangle "LMS\nProgreso, notas" as PA1
+  rectangle "Identity\nAuth y sesiones" as PA2
+  rectangle "Payments\nCobro, reintentos" as PA3
+  rectangle "Video/CDN\nStreaming y fallback" as PA4
+  rectangle "Evaluacion\nBanco preguntas" as PA5
+  rectangle "Proyectos\nEntrega y revision" as PA6
+  rectangle "Analytics\nEventos y funnels" as PA7
+  rectangle "Recomendacion IA\nPersonalizacion" as PA8
+  rectangle "Certificacion\nBadges y share" as PA9
+  rectangle "CRM\nRetencion y email" as PA10
+}
+
+AC1 -[hidden]-> AC2
+AC2 -[hidden]-> AC3
+AC3 -[hidden]-> AC4
+AC4 -[hidden]-> AC5
+AC5 -[hidden]-> AC6
+AC6 -[hidden]-> AC7
+AC7 -[hidden]-> AC8
+AC8 -[hidden]-> AC9
+AC9 -[hidden]-> AC10
+AC10 -[hidden]-> AC11
+
+EF1 -[hidden]-> EF2
+EF2 -[hidden]-> EF3
+EF3 -[hidden]-> EF4
+EF4 -[hidden]-> EF5
+EF5 -[hidden]-> EF6
+EF6 -[hidden]-> EF7
+EF7 -[hidden]-> EF8
+EF8 -[hidden]-> EF9
+EF9 -[hidden]-> EF10
+EF10 -[hidden]-> EF11
+
+EX1 -[hidden]-> EX2
+EX2 -[hidden]-> EX3
+EX3 -[hidden]-> EX4
+EX4 -[hidden]-> EX5
+EX5 -[hidden]-> EX6
+EX6 -[hidden]-> EX7
+EX7 -[hidden]-> EX8
+EX8 -[hidden]-> EX9
+EX9 -[hidden]-> EX10
+EX10 -[hidden]-> EX11
+
+AC1 --> EF1
+AC2 --> EF2
+AC3 --> EF3
+AC4 --> EF4
+AC5 --> EF5
+AC6 --> EF6
+AC7 --> EF7
+AC8 --> EF8
+AC9 --> EF9
+AC10 --> EF10
+AC11 --> EF11
+
+EX1 ..> AC1
+EX2 ..> AC2
+EX3 ..> AC3
+EX4 ..> AC4
+EX5 ..> AC5
+EX6 ..> AC6
+EX7 ..> AC7
+EX8 ..> AC8
+EX9 ..> AC9
+EX10 ..> AC10
+EX11 ..> AC11
+
+MC1 --> AC1
+MC1 --> AC2
+MC1 --> AC3
+MC7 --> AC4
+MC3 --> AC5
+MC1 --> AC6
+MC4 --> AC6
+MC1 --> AC7
+MC6 --> AC8
+MC1 --> AC9
+MC2 --> AC10
+MC3 --> AC11
+MC4 --> AC7
+MC5 --> AC4
+
+PE1 --> AC6
+PE2 --> AC7
+PE3 --> AC8
+PE4 --> AC3
+PE4 --> AC4
+
+TB1 --> PE1
+TB2 --> PE1
+TB6 --> PE2
+TB3 --> PE3
+TB4 --> PE4
+TB5 --> PE4
+TB7 --> PE4
+
+PA2 --> EF3
+PA3 --> EF4
+PA1 --> EF5
+PA4 --> EF6
+PA5 --> EF7
+PA6 --> EF7
+PA1 --> EF9
+PA9 --> EF10
+PA8 --> EF11
+PA10 --> EF11
+PA7 --> PA8
+
+PA4 --> MC1
+PA3 --> MC7
+PA10 --> MC2
+PA10 --> MC3
+
+rectangle "Falla Pago\nReintento o otro medio" as FAIL_PAY
+rectangle "Falla Video\nBaja calidad o descarga" as FAIL_VID
+rectangle "Falla Evaluacion\nRepasar y reintentar" as FAIL_EXAM
+rectangle "Falla Certificado\nReemision y soporte" as FAIL_CERT
+
+AC4 --> FAIL_PAY
+FAIL_PAY --> MC5
+MC5 --> PE4
+PE4 --> TB4
+TB4 --> PA3
+PA3 --> EF4
+
+AC6 --> FAIL_VID
+FAIL_VID --> MC4
+MC4 --> PE4
+PE4 --> TB5
+TB5 --> PA4
+PA4 --> EF6
+
+AC9 --> FAIL_EXAM
+FAIL_EXAM --> MC4
+MC4 --> PE2
+PE2 --> TB6
+TB6 --> PA5
+PA5 --> EF9
+
+AC10 --> FAIL_CERT
+FAIL_CERT --> MC5
+MC5 --> PE4
+PE4 --> TB7
+TB7 --> PA9
+PA9 --> EF10
+
+@enduml
