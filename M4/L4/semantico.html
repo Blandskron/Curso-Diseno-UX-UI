@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>HTML Semántico Educativo (con Sidebar)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+    body { background: #f0f0f0; line-height: 1.6; }
+
+    header, nav, main, section, article, aside, footer {
+      padding: 20px;
+      border: 2px solid #333;
+      margin: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    header { background: #4caf50; color: #fff; }
+    nav    { background: #2196f3; color: #fff; }
+    footer { background: #607d8b; color: #fff; }
+
+    /* Layout principal: contenido + sidebar lateral */
+    main {
+      background: #fff;
+      display: grid;
+      grid-template-columns: 2fr 1fr; /* contenido | sidebar */
+      gap: 10px;
+      align-items: start;
+    }
+
+    section { background: #ffeb3b; }
+
+    article {
+      background: #ff9800;
+      margin-top: 10px;
+    }
+
+    /* Sidebar lateral (columna derecha) */
+    .sidebar {
+      background: #9c27b0;
+      color: #fff;
+    }
+
+    /* Aside interno (dentro del contenido) */
+    .aside-interno {
+      background: #e91e63;
+      color: #fff;
+      margin-top: 10px;
+    }
+
+    p { font-weight: normal; margin-top: 10px; }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    HEADER
+    <p>Encabezado principal del sitio (logo, título, identidad)</p>
+  </header>
+
+  <nav>
+    NAV
+    <p>Menú de navegación principal</p>
+  </nav>
+
+  <main>
+    <!-- COLUMNA IZQUIERDA: CONTENIDO -->
+    <section>
+      SECTION (Contenido principal)
+      <p>Bloque principal del contenido del sitio</p>
+
+      <article>
+        ARTICLE
+        <p>Contenido independiente y reutilizable (post, noticia, entrada)</p>
+      </article>
+
+      <aside class="aside-interno">
+        ASIDE (Interno)
+        <p>Complemento dentro del contenido (nota, tip, recomendación)</p>
+      </aside>
+    </section>
+
+    <!-- COLUMNA DERECHA: SIDEBAR LATERAL -->
+    <aside class="sidebar">
+      SIDEBAR (ASIDE lateral)
+      <p>Barra lateral: enlaces, widgets, recursos, menú secundario</p>
+    </aside>
+  </main>
+
+  <footer>
+    FOOTER
+    <p>Pie de página (contacto, legal, redes, copyright)</p>
+  </footer>
+
+</body>
+</html>
