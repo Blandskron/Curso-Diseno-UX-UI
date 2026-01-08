@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX Lab: Arquitectura Cognitiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8fafc; color: #334155; }
+        .example-card { 
+            background: white; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-header {
+            padding: 12px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .header-bad { background-color: #f8fafc; color: #64748b; }
+        .header-good { background-color: #f0f9ff; color: #0284c7; }
+        .card-body { padding: 24px; flex-grow: 1; }
+        
+        /* Animaciones para el ejemplo de feedback */
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        .animate-progress { animation: progress 2s ease-out forwards; }
+    </style>
+</head>
+<body class="p-8 font-sans">
+
+    <div class="max-w-7xl mx-auto space-y-16">
+        
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold text-slate-900 tracking-tight">Laboratorio de Arquitectura Cognitiva</h1>
+            <p class="text-slate-500 mt-2">Izquierda: Carga Cognitiva Alta | Derecha: Carga Cognitiva Baja</p>
+        </div>
+
+        <section>
+            <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="bg-slate-200 text-slate-600 px-2 py-1 rounded text-sm">01</span> 
+                Visibilidad del Estado: Subida de Archivos
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="example-card shadow-sm">
+                    <div class="card-header header-bad">Enfoque: Caja Negra</div>
+                    <div class="card-body">
+                        <label class="block text-sm font-medium mb-2">Subir Documento</label>
+                        <div class="flex gap-2">
+                            <input type="file" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200"/>
+                        </div>
+                        <button onclick="alert('El archivo se está subiendo en segundo plano. Espere.')" class="mt-4 bg-slate-800 text-white px-4 py-2 rounded w-full hover:bg-slate-700">Subir</button>
+                    </div>
+                </div>
+
+                <div class="example-card shadow-lg ring-1 ring-blue-100">
+                    <div class="card-header header-good">Enfoque: Feedback Visual</div>
+                    <div class="card-body">
+                        <label class="block text-sm font-medium mb-2">Subir Documento</label>
+                        
+                        <div id="upload-area" class="border-2 border-dashed border-blue-200 rounded-lg p-6 text-center cursor-pointer hover:bg-blue-50 transition" onclick="simulateUpload()">
+                            <i class="fas fa-cloud-upload-alt text-3xl text-blue-400 mb-2"></i>
+                            <p class="text-sm text-slate-600">Click para subir archivo</p>
+                        </div>
+
+                        <div id="upload-progress" class="hidden mt-4">
+                            <div class="flex justify-between text-xs mb-1 text-slate-600">
+                                <span>contrato_final.pdf</span>
+                                <span id="percent">0%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                                <div id="bar" class="bg-blue-500 h-2 rounded-full w-0"></div>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1"><i class="fas fa-spinner fa-spin"></i> Encriptando y subiendo...</p>
+                        </div>
+
+                        <div id="upload-success" class="hidden mt-4 p-3 bg-green-50 border border-green-100 rounded-lg flex items-center gap-3">
+                            <div class="bg-green-100 p-1 rounded-full text-green-600"><i class="fas fa-check"></i></div>
+                            <div>
+                                <p class="text-sm font-semibold text-green-800">Carga completa</p>
+                                <p class="text-xs text-green-600">Tu archivo está seguro.</p>
+                            </div>
+                        </div>
+
+                        <script>
+                            function simulateUpload() {
+                                document.getElementById('upload-area').classList.add('hidden');
+                                document.getElementById('upload-progress').classList.remove('hidden');
+                                document.getElementById('bar').classList.add('animate-progress');
+                                
+                                let p = 0;
+                                const interval = setInterval(() => {
+                                    p += 5;
+                                    if(p <= 100) document.getElementById('percent').innerText = p + '%';
+                                }, 100);
+
+                                setTimeout(() => {
+                                    clearInterval(interval);
+                                    document.getElementById('upload-progress').classList.add('hidden');
+                                    document.getElementById('upload-success').classList.remove('hidden');
+                                }, 2000);
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="bg-slate-200 text-slate-600 px-2 py-1 rounded text-sm">02</span> 
+                Reconocimiento: Búsqueda y Navegación
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="example-card shadow-sm">
+                    <div class="card-header header-bad">Enfoque: Recuerdo Puro</div>
+                    <div class="card-body">
+                        <h3 class="text-lg font-semibold mb-1">Buscar Producto</h3>
+                        <p class="text-xs text-slate-500 mb-4">Debes conocer el nombre exacto o SKU.</p>
+                        
+                        <div class="flex gap-2">
+                            <input type="text" placeholder="Escribe aquí..." class="border p-2 rounded w-full focus:outline-none"/>
+                            <button class="bg-slate-200 px-4 rounded text-slate-600"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="mt-10 text-center text-slate-300">
+                            (El usuario debe adivinar qué buscar)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-card shadow-lg ring-1 ring-blue-100">
+                    <div class="card-header header-good">Enfoque: Reconocimiento Asistido</div>
+                    <div class="card-body relative">
+                        <h3 class="text-lg font-semibold mb-1">Buscar Producto</h3>
+                        <p class="text-xs text-slate-500 mb-4">El sistema sugiere antes de que pienses.</p>
+                        
+                        <div class="relative group">
+                            <div class="flex items-center border border-blue-300 rounded-lg p-2 focus-within:ring-2 focus-within:ring-blue-100 bg-white z-20 relative">
+                                <i class="fas fa-search text-slate-400 ml-2"></i>
+                                <input type="text" placeholder="¿Qué buscas hoy?" class="w-full ml-3 outline-none text-slate-700" onfocus="document.getElementById('suggestions').classList.remove('hidden')" onblur="setTimeout(() => document.getElementById('suggestions').classList.add('hidden'), 200)"/>
+                            </div>
+
+                            <div id="suggestions" class="hidden absolute top-full left-0 w-full bg-white border border-slate-200 rounded-b-lg shadow-xl z-10 mt-1">
+                                <div class="p-3 border-b border-slate-100">
+                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Recientes</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 bg-slate-100 rounded text-xs text-slate-600 cursor-pointer hover:bg-slate-200">⌚ Smartwatch</span>
+                                        <span class="px-2 py-1 bg-slate-100 rounded text-xs text-slate-600 cursor-pointer hover:bg-slate-200">🎧 Audífonos</span>
+                                    </div>
+                                </div>
+                                <div class="p-3">
+                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Tendencias</p>
+                                    <ul class="text-sm text-slate-600 space-y-2">
+                                        <li class="cursor-pointer hover:text-blue-600 flex items-center gap-2"><i class="fas fa-arrow-trend-up text-xs text-slate-300"></i> iPhone 15 Pro</li>
+                                        <li class="cursor-pointer hover:text-blue-600 flex items-center gap-2"><i class="fas fa-arrow-trend-up text-xs text-slate-300"></i> Sillas Ergonómicas</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="bg-slate-200 text-slate-600 px-2 py-1 rounded text-sm">03</span> 
+                Correspondencia con el Mundo Real: Errores
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="example-card shadow-sm">
+                    <div class="card-header header-bad">Enfoque: Orientado al Sistema</div>
+                    <div class="card-body flex items-center justify-center bg-slate-50">
+                        <div class="bg-white p-4 border border-red-200 rounded w-full">
+                            <h4 class="font-mono text-red-600 font-bold mb-2">Exception: NullReference</h4>
+                            <p class="font-mono text-xs text-slate-600 mb-2">Error 0x000451 at line 43. Payment gateway timeout exception handler failed.</p>
+                            <div class="bg-slate-900 text-green-400 font-mono text-xs p-2 rounded mt-2">
+                                > SYSTEM HALTED
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-card shadow-lg ring-1 ring-blue-100">
+                    <div class="card-header header-good">Enfoque: Orientado al Humano</div>
+                    <div class="card-body flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-credit-card text-orange-500 text-2xl"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-800 mb-2">No pudimos procesar el pago</h3>
+                            <p class="text-sm text-slate-500 mb-6 max-w-xs mx-auto">Parece que hubo un problema de conexión con tu banco. No se te ha cobrado nada.</p>
+                            
+                            <div class="flex gap-3 justify-center">
+                                <button class="text-slate-500 text-sm font-medium hover:text-slate-800">Cancelar</button>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-md hover:bg-blue-700 transition">
+                                    Intentar de nuevo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="bg-slate-200 text-slate-600 px-2 py-1 rounded text-sm">04</span> 
+                Ayuda Contextual: El "Estado Vacío" (Empty State)
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="example-card shadow-sm">
+                    <div class="card-header header-bad">Enfoque: Callejón sin salida</div>
+                    <div class="card-body">
+                        <h3 class="font-bold text-slate-700 mb-4 border-b pb-2">Mis Proyectos</h3>
+                        <table class="w-full text-left text-sm border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-500">
+                                    <th class="p-2">ID</th>
+                                    <th class="p-2">Nombre</th>
+                                    <th class="p-2">Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="3" class="p-8 text-center text-slate-400 italic">
+                                        No data found in table.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="example-card shadow-lg ring-1 ring-blue-100">
+                    <div class="card-header header-good">Enfoque: Guía y Acción</div>
+                    <div class="card-body flex flex-col items-center justify-center text-center py-8">
+                        <div class="mb-4 relative">
+                            <i class="fas fa-folder-open text-6xl text-blue-100"></i>
+                            <i class="fas fa-plus-circle text-xl text-blue-500 absolute bottom-0 right-0 bg-white rounded-full border border-white"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800">Aún no tienes proyectos</h3>
+                        <p class="text-sm text-slate-500 max-w-xs mb-6 mt-1">Los proyectos te ayudan a organizar tus tareas. Crea el primero para comenzar a trabajar.</p>
+                        
+                        <button class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-md hover:bg-blue-700 flex items-center gap-2 transition">
+                            <i class="fas fa-plus"></i> Crear Nuevo Proyecto
+                        </button>
+                        
+                        <p class="mt-4 text-xs text-blue-500 cursor-pointer hover:underline">
+                            <i class="far fa-play-circle"></i> Ver tutorial de 1 minuto
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>

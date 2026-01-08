@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clase 1: Arquitectura Cognitiva — Ejemplos Visuales</title>
+
+  <!-- Tailwind + Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    /* ✅ SOLO marco visual para distinguir pares (sin teoría en UI) */
+    .bad-example { border: 2px solid #ef4444; background: #fff5f5; }
+    .good-example { border: 2px solid #22c55e; background: #f0fdf4; }
+
+    .section-title{
+      margin-bottom: 1rem;
+      font-weight: 900;
+      color: #0f172a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: .5rem;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .section-sub{
+      color:#64748b;
+      font-size: .95rem;
+      margin-top: .4rem;
+      font-weight: 500;
+    }
+
+    /* Subtle mobile-like card shadow */
+    .soft-shadow{
+      box-shadow: 0 10px 25px rgba(15,23,42,.08);
+    }
+
+    /* iOS-ish spinner animation fallback */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin { animation: spin .9s linear infinite; }
+
+    /* Tooltip arrow */
+    .tooltip-arrow::after{
+      content:"";
+      position:absolute;
+      top:100%;
+      left:50%;
+      transform:translateX(-50%);
+      border:6px solid transparent;
+      border-top-color:#0f172a;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-100 p-6 md:p-10 font-sans">
+  <div class="max-w-6xl mx-auto space-y-12">
+
+    <!-- Header -->
+    <header class="text-center space-y-2">
+      <h1 class="text-3xl md:text-4xl font-black text-slate-900">Ejemplos Visuales — Clase 1</h1>
+      <p class="text-slate-600">Pares “Malo vs Correcto” listos para replicar en Figma</p>
+    </header>
+
+    <!-- 1) VISIBILIDAD DEL ESTADO -->
+    <section class="space-y-6">
+      <div>
+        <h2 class="text-xl md:text-2xl section-title">
+          <span>1) Estado visible</span>
+          <span class="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full">
+            UI Pair
+          </span>
+        </h2>
+        <p class="section-sub">Acción + respuesta inmediata en la interfaz</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- BAD -->
+        <div class="bad-example p-6 rounded-2xl soft-shadow relative">
+          <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
+            ❌ MALO
+          </div>
+
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-black text-slate-900">Guardar perfil</h3>
+              <p class="text-sm text-slate-600">Sin confirmación / sin carga</p>
+            </div>
+            <i class="fa-solid fa-user text-slate-400"></i>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Nombre</label>
+              <input class="w-full border border-slate-300 rounded-lg px-3 py-2" placeholder="Ej: Bastián" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Correo</label>
+              <input class="w-full border border-slate-300 rounded-lg px-3 py-2" placeholder="bastian@ejemplo.com" />
+            </div>
+            <button onclick="alert('...')" class="w-full bg-blue-600 text-white font-bold py-2.5 rounded-xl hover:bg-blue-700 active:bg-blue-800 transition">
+              Guardar cambios
+            </button>
+          </div>
+        </div>
+
+        <!-- GOOD -->
+        <div class="good-example p-6 rounded-2xl soft-shadow relative">
+          <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
+            ✅ CORRECTO
+          </div>
+
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-black text-slate-900">Guardar perfil</h3>
+              <p class="text-sm text-slate-600">Carga + confirmación</p>
+            </div>
+            <i class="fa-solid fa-shield-halved text-slate-400"></i>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
+            <div>
+              <label class="block text-sm font-bold text-slate-700 mb-1">Nombre</label>
+              <input class="w-full border border-slate-300 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-200 outline-none" value="Bastián" />
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-slate-700 mb-1">Correo</label>
+              <input class="w-full border border-slate-300 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-200 outline-none" value="bastian@ejemplo.com" />
+            </div>
+
+            <button id="btn-save" onclick="saveFlow()" class="w-full bg-blue-600 text-white font-black py-2.5 rounded-xl hover:bg-blue-700 transition flex items-center justify-center gap-2">
+              <span>Guardar cambios</span>
+            </button>
+
+            <div id="save-status" class="hidden mt-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 flex items-center gap-2">
+              <i class="fa-solid fa-check text-green-600"></i>
+              <span>Guardado</span>
+            </div>
+          </div>
+
+          <script>
+            function saveFlow(){
+              const btn = document.getElementById('btn-save');
+              const status = document.getElementById('save-status');
+              const original = btn.innerHTML;
+
+              btn.innerHTML = '<i class="fa-solid fa-circle-notch spin"></i><span>Guardando…</span>';
+              btn.classList.add('opacity-80','pointer-events-none');
+
+              setTimeout(()=>{
+                btn.innerHTML = '<i class="fa-solid fa-check"></i><span>Listo</span>';
+                btn.classList.remove('bg-blue-600');
+                btn.classList.add('bg-green-600');
+
+                status.classList.remove('hidden');
+
+                setTimeout(()=>{
+                  status.classList.add('hidden');
+                  btn.innerHTML = original;
+                  btn.classList.remove('bg-green-600','opacity-80','pointer-events-none');
+                  btn.classList.add('bg-blue-600');
+                }, 1700);
+              }, 1200);
+            }
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2) CORRESPONDENCIA CON EL MUNDO REAL -->
+    <section class="space-y-6">
+      <div>
+        <h2 class="text-xl md:text-2xl section-title">
+          <span>2) Lenguaje de app real</span>
+          <span class="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full">
+            UI Pair
+          </span>
+        </h2>
+        <p class="section-sub">Pantalla tipo “perfil” con labels y mensajes</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- BAD -->
+        <div class="bad-example p-6 rounded-2xl soft-shadow relative">
+          <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
+            ❌ MALO
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+            <div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+              <div class="font-black text-slate-900">Settings</div>
+              <i class="fa-solid fa-gear text-slate-400"></i>
+            </div>
+
+            <div class="p-4 space-y-3">
+              <div class="text-xs font-bold uppercase text-slate-500">Input String (VARCHAR 50)</div>
+              <input class="w-full border border-slate-300 rounded-lg px-3 py-2" placeholder="Null value not allowed" />
+
+              <button class="w-full bg-slate-200 border border-slate-300 text-slate-700 font-bold py-2.5 rounded-xl">
+                Execute Query
+              </button>
+
+              <div class="text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg p-2">
+                Error: 0x00452 Exception in void main()
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GOOD -->
+        <div class="good-example p-6 rounded-2xl soft-shadow relative">
+          <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
+            ✅ CORRECTO
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+            <div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+              <div>
+                <div class="font-black text-slate-900">Perfil</div>
+                <div class="text-xs text-slate-500">Cuenta</div>
+              </div>
+              <div class="h-9 w-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-black text-slate-700">
+                BL
+              </div>
+            </div>
+
+            <div class="p-4 space-y-3">
+              <label class="block text-sm font-bold text-slate-700">Nombre completo</label>
+              <input class="w-full border border-slate-300 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-200 outline-none" placeholder="Ej: Juan Pérez" />
+
+              <button class="w-full bg-blue-600 text-white font-black py-2.5 rounded-xl hover:bg-blue-700 transition">
+                Actualizar perfil
+              </button>
+
+              <div class="text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded-xl p-2 flex gap-2 items-start">
+                <i class="fa-solid fa-info-circle text-slate-400 mt-0.5"></i>
+                <span>No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3) RECONOCIMIENTO (OPCIONES VISIBLES) -->
+    <section class="space-y-6">
+      <div>
+        <h2 class="text-xl md:text-2xl section-title">
+          <span>3) Opciones visibles</span>
+          <span class="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full">
+            UI Pair
+          </span>
+        </h2>
+        <p class="section-sub">Selector de exportación tipo “app moderna”</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- BAD -->
+        <div class="bad-example p-6 rounded-2xl soft-shadow relative">
+          <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
+            ❌ MALO
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-xl p-4">
+            <label class="block text-sm font-black mb-2 text-slate-800">Formato de exportación</label>
+            <input class="w-full border border-slate-400 p-2.5 rounded-xl" placeholder="Escribe el código (ej: PDF_A4, XLS_V2)" />
+            <p class="text-xs text-slate-500 mt-2">
+              Si no recuerdas el código, revisa el manual pág 40.
+            </p>
+          </div>
+        </div>
+
+        <!-- GOOD -->
+        <div class="good-example p-6 rounded-2xl soft-shadow relative">
+          <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
+            ✅ CORRECTO
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-xl p-4">
+            <label class="block text-sm font-black mb-3 text-slate-800">Formato de exportación</label>
+
+            <div class="grid grid-cols-3 gap-2">
+              <button class="border border-slate-200 bg-white p-3 rounded-2xl hover:bg-slate-50 text-center text-sm flex flex-col items-center gap-1 soft-shadow">
+                <i class="fas fa-file-pdf text-red-500 text-xl"></i>
+                <span class="font-bold text-slate-800">PDF</span>
+              </button>
+              <button class="border border-slate-200 bg-white p-3 rounded-2xl hover:bg-slate-50 text-center text-sm flex flex-col items-center gap-1 soft-shadow">
+                <i class="fas fa-file-excel text-green-600 text-xl"></i>
+                <span class="font-bold text-slate-800">Excel</span>
+              </button>
+              <button class="border border-slate-200 bg-white p-3 rounded-2xl hover:bg-slate-50 text-center text-sm flex flex-col items-center gap-1 soft-shadow">
+                <i class="fas fa-file-csv text-slate-500 text-xl"></i>
+                <span class="font-bold text-slate-800">CSV</span>
+              </button>
+            </div>
+
+            <div class="mt-3 text-xs text-slate-500 flex items-center gap-2">
+              <i class="fa-solid fa-bolt text-slate-400"></i>
+              <span>Recuerda la última opción elegida</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4) AYUDA CONTEXTUAL -->
+    <section class="space-y-6">
+      <div>
+        <h2 class="text-xl md:text-2xl section-title">
+          <span>4) Ayuda inline</span>
+          <span class="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full">
+            UI Pair
+          </span>
+        </h2>
+        <p class="section-sub">Campo “bancario” con tooltip y microayuda</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- BAD -->
+        <div class="bad-example p-6 rounded-2xl soft-shadow relative">
+          <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
+            ❌ MALO
+          </div>
+
+          <div class="bg-white p-4 border border-slate-200 rounded-xl">
+            <label class="block text-sm font-black mb-2">Código SWIFT/BIC</label>
+            <input type="text" class="border border-slate-300 p-2.5 w-full rounded-xl mb-3" />
+            <a href="#" class="text-blue-600 text-xs underline">
+              Leer documentación bancaria (PDF)
+            </a>
+          </div>
+        </div>
+
+        <!-- GOOD -->
+        <div class="good-example p-6 rounded-2xl soft-shadow relative">
+          <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
+            ✅ CORRECTO
+          </div>
+
+          <div class="bg-white p-4 border border-slate-200 rounded-xl">
+            <label class="block text-sm font-black mb-2 flex items-center gap-2">
+              Código SWIFT/BIC
+              <span class="group relative inline-flex items-center">
+                <i class="fa-solid fa-circle-question text-slate-400 cursor-help"></i>
+                <span class="tooltip-arrow absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 bg-slate-900 text-white text-xs p-3 rounded-xl hidden group-hover:block z-10">
+                  Código de 8 a 11 caracteres que identifica tu banco.
+                </span>
+              </span>
+            </label>
+
+            <input type="text" class="border border-slate-300 p-2.5 w-full rounded-xl focus:ring-2 focus:ring-blue-200 outline-none" placeholder="Ej: CHASUS33" />
+            <p class="text-xs text-slate-500 mt-2 flex items-center gap-2">
+              <i class="fa-solid fa-info-circle text-slate-400"></i>
+              Lo encuentras en tu cartola bancaria o en la app del banco.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5) EXTERNALIZACIÓN DE MEMORIA (LISTA + CONTEXTO) -->
+    <section class="space-y-6">
+      <div>
+        <h2 class="text-xl md:text-2xl section-title">
+          <span>5) Lista con contexto</span>
+          <span class="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full">
+            UI Pair
+          </span>
+        </h2>
+        <p class="section-sub">Listado de documentos con detalles visibles</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- BAD -->
+        <div class="bad-example p-6 rounded-2xl soft-shadow relative">
+          <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
+            ❌ MALO
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-black">Archivos</span>
+              <button class="text-xs text-slate-500 underline">Actualizar</button>
+            </div>
+
+            <div class="border border-slate-200 rounded-xl p-3 flex items-center justify-between">
+              <span class="text-sm font-bold">archivo_1</span>
+              <i class="fa-solid fa-ellipsis text-slate-400"></i>
+            </div>
+            <div class="border border-slate-200 rounded-xl p-3 flex items-center justify-between">
+              <span class="text-sm font-bold">archivo_2</span>
+              <i class="fa-solid fa-ellipsis text-slate-400"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- GOOD -->
+        <div class="good-example p-6 rounded-2xl soft-shadow relative">
+          <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
+            ✅ CORRECTO
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="font-black text-slate-900">Documentos</div>
+                <div class="text-xs text-slate-500">Últimos 7 días</div>
+              </div>
+              <span class="text-xs font-bold text-slate-600 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full">
+                Orden: recientes
+              </span>
+            </div>
+
+            <div class="divide-y divide-slate-100 border border-slate-200 rounded-2xl overflow-hidden">
+              <div class="flex items-center justify-between p-3 bg-white">
+                <div class="flex items-center gap-3">
+                  <div class="h-10 w-10 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center font-black text-slate-700">PDF</div>
+                  <div>
+                    <div class="font-black text-slate-900 text-sm">Contrato_Cliente.pdf</div>
+                    <div class="text-xs text-slate-500">Actualizado hace 2 horas</div>
+                  </div>
+                </div>
+                <span class="text-xs font-black text-green-700 bg-green-50 border border-green-200 px-3 py-1 rounded-full">Listo</span>
+              </div>
+
+              <div class="flex items-center justify-between p-3 bg-white">
+                <div class="flex items-center gap-3">
+                  <div class="h-10 w-10 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center font-black text-slate-700">DOC</div>
+                  <div>
+                    <div class="font-black text-slate-900 text-sm">Propuesta_2026.docx</div>
+                    <div class="text-xs text-slate-500">Guardado ayer</div>
+                  </div>
+                </div>
+                <span class="text-xs font-black text-orange-700 bg-orange-50 border border-orange-200 px-3 py-1 rounded-full">Revisar</span>
+              </div>
+            </div>
+
+            <div class="flex gap-2">
+              <button class="flex-1 bg-white border border-slate-200 rounded-xl py-2.5 font-black text-slate-700 hover:bg-slate-50">
+                Filtrar
+              </button>
+              <button class="flex-1 bg-white border border-slate-200 rounded-xl py-2.5 font-black text-slate-700 hover:bg-slate-50">
+                Buscar
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6) FEEDBACK TEMPORAL (TOASTS) -->
+    <section class="space-y-6">
+      <div>
+        <h2 class="text-xl md:text-2xl section-title">
+          <span>6) Feedback breve</span>
+          <span class="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full">
+            UI Pair
+          </span>
+        </h2>
+        <p class="section-sub">Notificaciones rápidas en el mismo flujo</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- BAD -->
+        <div class="bad-example p-6 rounded-2xl soft-shadow relative">
+          <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
+            ❌ MALO
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
+            <button onclick="alert('...')" class="w-full bg-slate-900 text-white font-black py-2.5 rounded-xl">
+              Guardar
+            </button>
+            <div class="note">Sin confirmación visual dentro de la pantalla</div>
+          </div>
+        </div>
+
+        <!-- GOOD -->
+        <div class="good-example p-6 rounded-2xl soft-shadow relative">
+          <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
+            ✅ CORRECTO
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
+            <button class="w-full bg-slate-900 text-white font-black py-2.5 rounded-xl">
+              Guardar
+            </button>
+
+            <div class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-3">
+              <div class="h-9 w-9 rounded-2xl bg-green-50 border border-green-200 flex items-center justify-center">
+                <i class="fa-solid fa-check text-green-700"></i>
+              </div>
+              <div>
+                <div class="font-black text-slate-900 text-sm">Guardado</div>
+                <div class="text-xs text-slate-500">Tus cambios están listos</div>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white p-3">
+              <div class="h-9 w-9 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center">
+                <i class="fa-solid fa-clock text-slate-600"></i>
+              </div>
+              <div>
+                <div class="font-black text-slate-900 text-sm">Sincronizando</div>
+                <div class="text-xs text-slate-500">Se actualiza en segundo plano</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>

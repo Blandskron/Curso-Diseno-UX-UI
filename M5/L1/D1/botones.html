@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Guía Completa de Botones HTML</title>
+  <style>
+
+    /* =========================
+       VARIABLES GENERALES
+    ========================== */
+    :root {
+      --primary: #4f46e5;
+      --secondary: #64748b;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #f59e0b;
+      --dark: #111827;
+      --light: #f9fafb;
+      --disabled: #9ca3af;
+      --radius: 8px;
+      --transition: 0.2s ease;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f3f4f6;
+      padding: 40px;
+    }
+
+    h2 {
+      margin: 40px 0 16px;
+    }
+
+    .group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* =========================
+       BASE DEL BOTÓN
+    ========================== */
+    button {
+      border: none;
+      padding: 12px 18px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button:disabled {
+      background: var(--disabled);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    /* =========================
+       VARIANTES DE COLOR
+    ========================== */
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-warning {
+      background: var(--warning);
+      color: black;
+    }
+
+    /* Hover */
+    button:not(:disabled):hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+    }
+
+    /* Active */
+    button:not(:disabled):active {
+      transform: scale(0.96);
+    }
+
+    /* =========================
+       BOTONES OUTLINE
+    ========================== */
+    .btn-outline {
+      background: transparent;
+      border: 2px solid currentColor;
+    }
+
+    .outline-primary {
+      color: var(--primary);
+    }
+
+    .outline-danger {
+      color: var(--danger);
+    }
+
+    /* =========================
+       BOTONES GHOST
+    ========================== */
+    .btn-ghost {
+      background: transparent;
+      color: var(--dark);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(0,0,0,0.05);
+    }
+
+    /* =========================
+       TAMAÑOS
+    ========================== */
+    .btn-sm {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    .btn-lg {
+      padding: 16px 24px;
+      font-size: 16px;
+    }
+
+    /* =========================
+       BOTÓN CON ICONO
+    ========================== */
+    .icon {
+      font-size: 16px;
+    }
+
+    /* =========================
+       BOTÓN CIRCULAR
+    ========================== */
+    .btn-circle {
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    /* =========================
+       BOTÓN LOADING
+    ========================== */
+    .btn-loading {
+      pointer-events: none;
+      position: relative;
+      color: transparent;
+    }
+
+    .btn-loading::after {
+      content: "";
+      width: 18px;
+      height: 18px;
+      border: 3px solid white;
+      border-top-color: transparent;
+      border-radius: 50%;
+      position: absolute;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* =========================
+       BOTÓN BLOQUE (FULL WIDTH)
+    ========================== */
+    .btn-block {
+      width: 100%;
+      justify-content: center;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h2>Botones básicos</h2>
+  <div class="group">
+    <button class="btn-primary">Primario</button>
+    <button class="btn-secondary">Secundario</button>
+    <button class="btn-success">Éxito</button>
+    <button class="btn-danger">Peligro</button>
+    <button class="btn-warning">Advertencia</button>
+  </div>
+
+  <h2>Botones deshabilitados</h2>
+  <div class="group">
+    <button class="btn-primary" disabled>Deshabilitado</button>
+    <button class="btn-danger" disabled>No permitido</button>
+  </div>
+
+  <h2>Botones outline</h2>
+  <div class="group">
+    <button class="btn-outline outline-primary">Outline Primary</button>
+    <button class="btn-outline outline-danger">Outline Danger</button>
+  </div>
+
+  <h2>Botones ghost</h2>
+  <div class="group">
+    <button class="btn-ghost">Ghost</button>
+    <button class="btn-ghost">Minimal</button>
+  </div>
+
+  <h2>Tamaños</h2>
+  <div class="group">
+    <button class="btn-primary btn-sm">Pequeño</button>
+    <button class="btn-primary">Normal</button>
+    <button class="btn-primary btn-lg">Grande</button>
+  </div>
+
+  <h2>Botones con icono</h2>
+  <div class="group">
+    <button class="btn-primary">
+      <span class="icon">💾</span> Guardar
+    </button>
+    <button class="btn-danger">
+      <span class="icon">🗑️</span> Eliminar
+    </button>
+  </div>
+
+  <h2>Botones circulares</h2>
+  <div class="group">
+    <button class="btn-primary btn-circle">+</button>
+    <button class="btn-danger btn-circle">×</button>
+  </div>
+
+  <h2>Botón loading</h2>
+  <div class="group">
+    <button class="btn-primary btn-loading">Cargando</button>
+  </div>
+
+  <h2>Botón de ancho completo</h2>
+  <button class="btn-success btn-block">Botón Full Width</button>
+
+</body>
+</html>
