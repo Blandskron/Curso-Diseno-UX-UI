@@ -3,526 +3,417 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Clase 1: Arquitectura Cognitiva — Ejemplos Visuales</title>
+  <title>Lab UX: Arquitectura Cognitiva y Control Mental</title>
 
-  <!-- Tailwind + Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* ✅ SOLO marco visual para distinguir pares (sin teoría en UI) */
-    .bad-example { border: 2px solid #ef4444; background: #fff5f5; }
-    .good-example { border: 2px solid #22c55e; background: #f0fdf4; }
+    body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #334155; }
 
-    .section-title{
-      margin-bottom: 1rem;
-      font-weight: 900;
-      color: #0f172a;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: .5rem;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-    }
-    .section-sub{
-      color:#64748b;
-      font-size: .95rem;
-      margin-top: .4rem;
-      font-weight: 500;
+    /* CLASES BASE PARA LOS PANELES */
+    .ux-card {
+      background: white;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+      transition: transform 0.2s;
     }
 
-    /* Subtle mobile-like card shadow */
-    .soft-shadow{
-      box-shadow: 0 10px 25px rgba(15,23,42,.08);
+    /* ESTILO "ALTA CARGA COGNITIVA" (MALO) */
+    .cognitive-load-high {
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #ef4444; /* Rojo sutil */
     }
+    .badge-bad { background: #fef2f2; color: #b91c1c; font-size: 0.7rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; margin-bottom: 8px;}
 
-    /* iOS-ish spinner animation fallback */
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .spin { animation: spin .9s linear infinite; }
-
-    /* Tooltip arrow */
-    .tooltip-arrow::after{
-      content:"";
-      position:absolute;
-      top:100%;
-      left:50%;
-      transform:translateX(-50%);
-      border:6px solid transparent;
-      border-top-color:#0f172a;
+    /* ESTILO "BAJA CARGA COGNITIVA" (BUENO) */
+    .cognitive-load-low {
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #22c55e; /* Verde sutil */
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
     }
+    .badge-good { background: #f0fdf4; color: #15803d; font-size: 0.7rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; margin-bottom: 8px;}
+
+    /* UTILIDADES VISUALES */
+    .skeleton { background-color: #e2e8f0; border-radius: 4px; }
+    
+    /* ANIMACIONES */
+    @keyframes pulse-ring { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(2); opacity: 0; } }
+    .pulse-dot::before { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: inherit; border-radius: 50%; z-index: -1; animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
+    
+    .fade-enter { animation: fadeIn 0.4s ease-out forwards; opacity: 0; transform: translateY(10px); }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 
-<body class="bg-slate-100 p-6 md:p-10 font-sans">
-  <div class="max-w-6xl mx-auto space-y-12">
+<body class="p-4 md:p-10">
 
-    <!-- Header -->
-    <header class="text-center space-y-2">
-      <h1 class="text-3xl md:text-4xl font-black text-slate-900">Ejemplos Visuales — Clase 1</h1>
-      <p class="text-slate-600">Pares “Malo vs Correcto” listos para replicar en Figma</p>
+  <div class="max-w-7xl mx-auto space-y-20">
+
+    <header class="text-center space-y-4 border-b border-slate-200 pb-10">
+      <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">Arquitectura Cognitiva</h1>
+      <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+        Laboratorio visual de la Clase 1. Cómo reducir la incertidumbre y controlar la ansiedad del usuario mediante el diseño.
+      </p>
     </header>
 
-    <!-- 1) VISIBILIDAD DEL ESTADO -->
-    <section class="space-y-6">
-      <div>
-        <h2 class="text-xl md:text-2xl section-title">
-          <span>1) Estado visible</span>
-          <span class="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full">
-            UI Pair
-          </span>
+
+    <section>
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-3">
+          <span class="bg-slate-800 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+          Feedback Inmediato y Temporal
         </h2>
-        <p class="section-sub">Acción + respuesta inmediata en la interfaz</p>
+        <p class="text-slate-500 mt-1 ml-11">El sistema debe confirmar que "escuchó" al usuario (micro-interacción) y mostrar cuánto falta (temporalidad).</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-        <!-- BAD -->
-        <div class="bad-example p-6 rounded-2xl soft-shadow relative">
-          <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
-            ❌ MALO
-          </div>
-
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h3 class="font-black text-slate-900">Guardar perfil</h3>
-              <p class="text-sm text-slate-600">Sin confirmación / sin carga</p>
-            </div>
-            <i class="fa-solid fa-user text-slate-400"></i>
-          </div>
-
-          <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
-            <div>
-              <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Nombre</label>
-              <input class="w-full border border-slate-300 rounded-lg px-3 py-2" placeholder="Ej: Bastián" />
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Correo</label>
-              <input class="w-full border border-slate-300 rounded-lg px-3 py-2" placeholder="bastian@ejemplo.com" />
-            </div>
-            <button onclick="alert('...')" class="w-full bg-blue-600 text-white font-bold py-2.5 rounded-xl hover:bg-blue-700 active:bg-blue-800 transition">
-              Guardar cambios
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <div class="ux-card cognitive-load-high p-6 relative">
+          <div class="absolute top-4 right-4 badge-bad">Ansiedad Alta</div>
+          <h3 class="font-bold text-slate-900 mb-4">Ceguera del Sistema</h3>
+          
+          <div class="border border-slate-200 rounded-lg p-6 flex flex-col items-center justify-center h-48 bg-slate-50">
+            <button onclick="alert('El proceso corre, pero no se ve.')" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded shadow-sm hover:bg-blue-700 active:bg-blue-800">
+              Generar Reporte Mensual
             </button>
+            <p class="text-xs text-slate-400 mt-4 text-center max-w-xs">
+              Al hacer clic, no pasa nada visualmente hasta que termina. El usuario cliclará 10 veces pensando que se trabó.
+            </p>
           </div>
         </div>
 
-        <!-- GOOD -->
-        <div class="good-example p-6 rounded-2xl soft-shadow relative">
-          <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
-            ✅ CORRECTO
-          </div>
-
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h3 class="font-black text-slate-900">Guardar perfil</h3>
-              <p class="text-sm text-slate-600">Carga + confirmación</p>
-            </div>
-            <i class="fa-solid fa-shield-halved text-slate-400"></i>
-          </div>
-
-          <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
-            <div>
-              <label class="block text-sm font-bold text-slate-700 mb-1">Nombre</label>
-              <input class="w-full border border-slate-300 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-200 outline-none" value="Bastián" />
-            </div>
-            <div>
-              <label class="block text-sm font-bold text-slate-700 mb-1">Correo</label>
-              <input class="w-full border border-slate-300 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-200 outline-none" value="bastian@ejemplo.com" />
-            </div>
-
-            <button id="btn-save" onclick="saveFlow()" class="w-full bg-blue-600 text-white font-black py-2.5 rounded-xl hover:bg-blue-700 transition flex items-center justify-center gap-2">
-              <span>Guardar cambios</span>
+        <div class="ux-card cognitive-load-low p-6 relative">
+          <div class="absolute top-4 right-4 badge-good">Control Total</div>
+          <h3 class="font-bold text-slate-900 mb-4">Visibilidad Temporal</h3>
+          
+          <div class="border border-slate-200 rounded-lg p-6 flex flex-col items-center justify-center h-48 bg-white relative overflow-hidden">
+            
+            <button id="btn-generate" onclick="runProcess()" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded shadow-lg hover:bg-blue-500 transition-all flex items-center gap-2">
+              <span>Generar Reporte</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
             </button>
 
-            <div id="save-status" class="hidden mt-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 flex items-center gap-2">
-              <i class="fa-solid fa-check text-green-600"></i>
-              <span>Guardado</span>
+            <div id="loader-ui" class="hidden w-full max-w-xs space-y-2">
+              <div class="flex justify-between text-xs font-bold text-slate-600">
+                <span>Compilando datos...</span>
+                <span id="percent">0%</span>
+              </div>
+              <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div id="progress-bar" class="h-full bg-blue-500 w-0 transition-all duration-100"></div>
+              </div>
+              <p class="text-[10px] text-slate-400 text-center">Esto puede tardar unos segundos</p>
             </div>
+
+            <div id="success-ui" class="hidden text-center fade-enter">
+              <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-2 text-xl">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <p class="font-bold text-slate-800">¡Reporte Listo!</p>
+              <button onclick="resetProcess()" class="text-xs text-blue-500 underline mt-2">Reiniciar demo</button>
+            </div>
+
           </div>
-
           <script>
-            function saveFlow(){
-              const btn = document.getElementById('btn-save');
-              const status = document.getElementById('save-status');
-              const original = btn.innerHTML;
-
-              btn.innerHTML = '<i class="fa-solid fa-circle-notch spin"></i><span>Guardando…</span>';
-              btn.classList.add('opacity-80','pointer-events-none');
-
-              setTimeout(()=>{
-                btn.innerHTML = '<i class="fa-solid fa-check"></i><span>Listo</span>';
-                btn.classList.remove('bg-blue-600');
-                btn.classList.add('bg-green-600');
-
-                status.classList.remove('hidden');
-
-                setTimeout(()=>{
-                  status.classList.add('hidden');
-                  btn.innerHTML = original;
-                  btn.classList.remove('bg-green-600','opacity-80','pointer-events-none');
-                  btn.classList.add('bg-blue-600');
-                }, 1700);
-              }, 1200);
+            function runProcess() {
+              document.getElementById('btn-generate').classList.add('hidden');
+              document.getElementById('loader-ui').classList.remove('hidden');
+              let w = 0;
+              const bar = document.getElementById('progress-bar');
+              const txt = document.getElementById('percent');
+              const interval = setInterval(() => {
+                w += 2; 
+                bar.style.width = w + '%'; 
+                txt.innerText = w + '%';
+                if(w>=100) {
+                  clearInterval(interval);
+                  setTimeout(() => {
+                    document.getElementById('loader-ui').classList.add('hidden');
+                    document.getElementById('success-ui').classList.remove('hidden');
+                  }, 400);
+                }
+              }, 30);
+            }
+            function resetProcess() {
+              document.getElementById('success-ui').classList.add('hidden');
+              document.getElementById('btn-generate').classList.remove('hidden');
             }
           </script>
         </div>
-
       </div>
     </section>
 
-    <!-- 2) CORRESPONDENCIA CON EL MUNDO REAL -->
-    <section class="space-y-6">
-      <div>
-        <h2 class="text-xl md:text-2xl section-title">
-          <span>2) Lenguaje de app real</span>
-          <span class="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full">
-            UI Pair
-          </span>
+
+    <section>
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-3">
+          <span class="bg-slate-800 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+          Modelos Mentales y Metáforas
         </h2>
-        <p class="section-sub">Pantalla tipo “perfil” con labels y mensajes</p>
+        <p class="text-slate-500 mt-1 ml-11">Traducir la lógica de la base de datos a objetos tangibles que el usuario ya conoce.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-        <!-- BAD -->
-        <div class="bad-example p-6 rounded-2xl soft-shadow relative">
-          <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
-            ❌ MALO
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <div class="ux-card cognitive-load-high p-6 relative">
+          <div class="absolute top-4 right-4 badge-bad">Modelo de Sistema</div>
+          <h3 class="font-bold text-slate-900 mb-4">Abstracción Técnica</h3>
+          
+          <div class="bg-slate-900 rounded-lg p-5 font-mono text-sm text-green-400 overflow-hidden relative">
+            <p class="mb-2 text-slate-400">// Storage Status</p>
+            <p>User_ID: 84921</p>
+            <p>Vol_Allocated: 5368709120 bytes</p>
+            <p>Vol_Used: 4026531840 bytes</p>
+            <p>Status: OK</p>
+            <hr class="border-slate-700 my-3">
+            <p class="text-yellow-500">WARNING: Threshold 75% reached.</p>
           </div>
-
-          <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
-            <div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-              <div class="font-black text-slate-900">Settings</div>
-              <i class="fa-solid fa-gear text-slate-400"></i>
-            </div>
-
-            <div class="p-4 space-y-3">
-              <div class="text-xs font-bold uppercase text-slate-500">Input String (VARCHAR 50)</div>
-              <input class="w-full border border-slate-300 rounded-lg px-3 py-2" placeholder="Null value not allowed" />
-
-              <button class="w-full bg-slate-200 border border-slate-300 text-slate-700 font-bold py-2.5 rounded-xl">
-                Execute Query
-              </button>
-
-              <div class="text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg p-2">
-                Error: 0x00452 Exception in void main()
-              </div>
-            </div>
-          </div>
+          <p class="text-sm text-slate-500 mt-3">El usuario debe calcular mentalmente cuánto espacio le queda.</p>
         </div>
 
-        <!-- GOOD -->
-        <div class="good-example p-6 rounded-2xl soft-shadow relative">
-          <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
-            ✅ CORRECTO
-          </div>
-
-          <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
-            <div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-              <div>
-                <div class="font-black text-slate-900">Perfil</div>
-                <div class="text-xs text-slate-500">Cuenta</div>
-              </div>
-              <div class="h-9 w-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-black text-slate-700">
-                BL
-              </div>
-            </div>
-
-            <div class="p-4 space-y-3">
-              <label class="block text-sm font-bold text-slate-700">Nombre completo</label>
-              <input class="w-full border border-slate-300 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-200 outline-none" placeholder="Ej: Juan Pérez" />
-
-              <button class="w-full bg-blue-600 text-white font-black py-2.5 rounded-xl hover:bg-blue-700 transition">
-                Actualizar perfil
-              </button>
-
-              <div class="text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded-xl p-2 flex gap-2 items-start">
-                <i class="fa-solid fa-info-circle text-slate-400 mt-0.5"></i>
-                <span>No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 3) RECONOCIMIENTO (OPCIONES VISIBLES) -->
-    <section class="space-y-6">
-      <div>
-        <h2 class="text-xl md:text-2xl section-title">
-          <span>3) Opciones visibles</span>
-          <span class="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full">
-            UI Pair
-          </span>
-        </h2>
-        <p class="section-sub">Selector de exportación tipo “app moderna”</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-        <!-- BAD -->
-        <div class="bad-example p-6 rounded-2xl soft-shadow relative">
-          <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
-            ❌ MALO
-          </div>
-
-          <div class="bg-white border border-slate-200 rounded-xl p-4">
-            <label class="block text-sm font-black mb-2 text-slate-800">Formato de exportación</label>
-            <input class="w-full border border-slate-400 p-2.5 rounded-xl" placeholder="Escribe el código (ej: PDF_A4, XLS_V2)" />
-            <p class="text-xs text-slate-500 mt-2">
-              Si no recuerdas el código, revisa el manual pág 40.
-            </p>
-          </div>
-        </div>
-
-        <!-- GOOD -->
-        <div class="good-example p-6 rounded-2xl soft-shadow relative">
-          <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
-            ✅ CORRECTO
-          </div>
-
-          <div class="bg-white border border-slate-200 rounded-xl p-4">
-            <label class="block text-sm font-black mb-3 text-slate-800">Formato de exportación</label>
-
-            <div class="grid grid-cols-3 gap-2">
-              <button class="border border-slate-200 bg-white p-3 rounded-2xl hover:bg-slate-50 text-center text-sm flex flex-col items-center gap-1 soft-shadow">
-                <i class="fas fa-file-pdf text-red-500 text-xl"></i>
-                <span class="font-bold text-slate-800">PDF</span>
-              </button>
-              <button class="border border-slate-200 bg-white p-3 rounded-2xl hover:bg-slate-50 text-center text-sm flex flex-col items-center gap-1 soft-shadow">
-                <i class="fas fa-file-excel text-green-600 text-xl"></i>
-                <span class="font-bold text-slate-800">Excel</span>
-              </button>
-              <button class="border border-slate-200 bg-white p-3 rounded-2xl hover:bg-slate-50 text-center text-sm flex flex-col items-center gap-1 soft-shadow">
-                <i class="fas fa-file-csv text-slate-500 text-xl"></i>
-                <span class="font-bold text-slate-800">CSV</span>
-              </button>
-            </div>
-
-            <div class="mt-3 text-xs text-slate-500 flex items-center gap-2">
-              <i class="fa-solid fa-bolt text-slate-400"></i>
-              <span>Recuerda la última opción elegida</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 4) AYUDA CONTEXTUAL -->
-    <section class="space-y-6">
-      <div>
-        <h2 class="text-xl md:text-2xl section-title">
-          <span>4) Ayuda inline</span>
-          <span class="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full">
-            UI Pair
-          </span>
-        </h2>
-        <p class="section-sub">Campo “bancario” con tooltip y microayuda</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-        <!-- BAD -->
-        <div class="bad-example p-6 rounded-2xl soft-shadow relative">
-          <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
-            ❌ MALO
-          </div>
-
-          <div class="bg-white p-4 border border-slate-200 rounded-xl">
-            <label class="block text-sm font-black mb-2">Código SWIFT/BIC</label>
-            <input type="text" class="border border-slate-300 p-2.5 w-full rounded-xl mb-3" />
-            <a href="#" class="text-blue-600 text-xs underline">
-              Leer documentación bancaria (PDF)
-            </a>
-          </div>
-        </div>
-
-        <!-- GOOD -->
-        <div class="good-example p-6 rounded-2xl soft-shadow relative">
-          <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
-            ✅ CORRECTO
-          </div>
-
-          <div class="bg-white p-4 border border-slate-200 rounded-xl">
-            <label class="block text-sm font-black mb-2 flex items-center gap-2">
-              Código SWIFT/BIC
-              <span class="group relative inline-flex items-center">
-                <i class="fa-solid fa-circle-question text-slate-400 cursor-help"></i>
-                <span class="tooltip-arrow absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 bg-slate-900 text-white text-xs p-3 rounded-xl hidden group-hover:block z-10">
-                  Código de 8 a 11 caracteres que identifica tu banco.
-                </span>
-              </span>
-            </label>
-
-            <input type="text" class="border border-slate-300 p-2.5 w-full rounded-xl focus:ring-2 focus:ring-blue-200 outline-none" placeholder="Ej: CHASUS33" />
-            <p class="text-xs text-slate-500 mt-2 flex items-center gap-2">
-              <i class="fa-solid fa-info-circle text-slate-400"></i>
-              Lo encuentras en tu cartola bancaria o en la app del banco.
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 5) EXTERNALIZACIÓN DE MEMORIA (LISTA + CONTEXTO) -->
-    <section class="space-y-6">
-      <div>
-        <h2 class="text-xl md:text-2xl section-title">
-          <span>5) Lista con contexto</span>
-          <span class="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full">
-            UI Pair
-          </span>
-        </h2>
-        <p class="section-sub">Listado de documentos con detalles visibles</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-        <!-- BAD -->
-        <div class="bad-example p-6 rounded-2xl soft-shadow relative">
-          <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
-            ❌ MALO
-          </div>
-
-          <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="font-black">Archivos</span>
-              <button class="text-xs text-slate-500 underline">Actualizar</button>
-            </div>
-
-            <div class="border border-slate-200 rounded-xl p-3 flex items-center justify-between">
-              <span class="text-sm font-bold">archivo_1</span>
-              <i class="fa-solid fa-ellipsis text-slate-400"></i>
-            </div>
-            <div class="border border-slate-200 rounded-xl p-3 flex items-center justify-between">
-              <span class="text-sm font-bold">archivo_2</span>
-              <i class="fa-solid fa-ellipsis text-slate-400"></i>
-            </div>
-          </div>
-        </div>
-
-        <!-- GOOD -->
-        <div class="good-example p-6 rounded-2xl soft-shadow relative">
-          <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
-            ✅ CORRECTO
-          </div>
-
-          <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
-            <div class="flex items-center justify-between">
-              <div>
-                <div class="font-black text-slate-900">Documentos</div>
-                <div class="text-xs text-slate-500">Últimos 7 días</div>
-              </div>
-              <span class="text-xs font-bold text-slate-600 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full">
-                Orden: recientes
-              </span>
-            </div>
-
-            <div class="divide-y divide-slate-100 border border-slate-200 rounded-2xl overflow-hidden">
-              <div class="flex items-center justify-between p-3 bg-white">
-                <div class="flex items-center gap-3">
-                  <div class="h-10 w-10 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center font-black text-slate-700">PDF</div>
-                  <div>
-                    <div class="font-black text-slate-900 text-sm">Contrato_Cliente.pdf</div>
-                    <div class="text-xs text-slate-500">Actualizado hace 2 horas</div>
-                  </div>
+        <div class="ux-card cognitive-load-low p-6 relative">
+          <div class="absolute top-4 right-4 badge-good">Modelo Humano</div>
+          <h3 class="font-bold text-slate-900 mb-4">Metáfora Visual</h3>
+          
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="bg-indigo-100 text-indigo-600 w-10 h-10 rounded-lg flex items-center justify-center text-lg">
+                  <i class="fa-solid fa-cloud"></i>
                 </div>
-                <span class="text-xs font-black text-green-700 bg-green-50 border border-green-200 px-3 py-1 rounded-full">Listo</span>
-              </div>
-
-              <div class="flex items-center justify-between p-3 bg-white">
-                <div class="flex items-center gap-3">
-                  <div class="h-10 w-10 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center font-black text-slate-700">DOC</div>
-                  <div>
-                    <div class="font-black text-slate-900 text-sm">Propuesta_2026.docx</div>
-                    <div class="text-xs text-slate-500">Guardado ayer</div>
-                  </div>
+                <div>
+                  <p class="font-bold text-slate-800">Mi Nube</p>
+                  <p class="text-xs text-slate-500">Plan Estándar</p>
                 </div>
-                <span class="text-xs font-black text-orange-700 bg-orange-50 border border-orange-200 px-3 py-1 rounded-full">Revisar</span>
               </div>
+              <button class="text-xs font-bold text-indigo-600 border border-indigo-200 px-3 py-1 rounded-full hover:bg-indigo-50">Gestionar</button>
             </div>
 
+            <div class="space-y-2">
+              <div class="flex justify-between text-sm font-medium text-slate-700">
+                <span>75% Ocupado</span>
+                <span>3.8 GB / 5 GB</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-3">
+                <div class="bg-indigo-500 h-3 rounded-full" style="width: 75%"></div>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">Te queda espacio para unas 500 fotos más.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section>
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-3">
+          <span class="bg-slate-800 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+          Externalización de Memoria
+        </h2>
+        <p class="text-slate-500 mt-1 ml-11">No obligar al usuario a mantener información en su memoria de trabajo (RAM humana) entre pantallas.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <div class="ux-card cognitive-load-high p-6 relative">
+          <div class="absolute top-4 right-4 badge-bad">Esfuerzo de Memoria</div>
+          <h3 class="font-bold text-slate-900 mb-4">Formulario Ciego</h3>
+          
+          <div class="bg-white border border-slate-200 p-4 rounded-lg">
+            <h4 class="font-bold text-slate-800 border-b pb-2 mb-3">Paso 3: Confirmar Envío</h4>
+            <p class="text-sm text-slate-600 mb-4">
+              Por favor, confirma que deseas enviar la solicitud con los datos ingresados en los pasos anteriores.
+            </p>
+            <div class="bg-yellow-50 text-yellow-800 text-xs p-3 rounded mb-4">
+              ¿Recuerdas si pusiste bien la dirección en el Paso 1? Aquí no puedes verla.
+            </div>
             <div class="flex gap-2">
-              <button class="flex-1 bg-white border border-slate-200 rounded-xl py-2.5 font-black text-slate-700 hover:bg-slate-50">
-                Filtrar
-              </button>
-              <button class="flex-1 bg-white border border-slate-200 rounded-xl py-2.5 font-black text-slate-700 hover:bg-slate-50">
-                Buscar
-              </button>
+              <button class="bg-slate-200 text-slate-700 px-4 py-2 rounded text-sm w-1/2">Atrás</button>
+              <button class="bg-slate-800 text-white px-4 py-2 rounded text-sm w-1/2">Confirmar</button>
             </div>
           </div>
         </div>
 
+        <div class="ux-card cognitive-load-low p-6 relative">
+          <div class="absolute top-4 right-4 badge-good">Memoria Visual</div>
+          <h3 class="font-bold text-slate-900 mb-4">Resumen Contextual</h3>
+          
+          <div class="bg-white border border-slate-200 p-0 rounded-lg overflow-hidden shadow-sm">
+            <div class="bg-slate-50 p-3 border-b border-slate-100 flex justify-between items-center">
+              <h4 class="font-bold text-slate-800 text-sm">Resumen de solicitud</h4>
+              <span class="text-xs text-blue-600 font-bold cursor-pointer">Editar</span>
+            </div>
+            
+            <div class="p-4 space-y-3">
+              <div class="flex gap-3">
+                <div class="w-8 h-8 bg-slate-100 rounded flex items-center justify-center text-slate-400">
+                  <i class="fa-solid fa-map-pin"></i>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-400 uppercase font-bold">Dirección de envío</p>
+                  <p class="text-sm font-semibold text-slate-700">Av. Providencia 1234, Of 601</p>
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <div class="w-8 h-8 bg-slate-100 rounded flex items-center justify-center text-slate-400">
+                  <i class="fa-solid fa-credit-card"></i>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-400 uppercase font-bold">Método de pago</p>
+                  <p class="text-sm font-semibold text-slate-700">Visa terminada en 4242</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="p-3 bg-slate-50 border-t border-slate-100">
+              <button class="bg-blue-600 text-white w-full py-2 rounded font-bold shadow-md hover:bg-blue-700 transition">Confirmar y Pagar</button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- 6) FEEDBACK TEMPORAL (TOASTS) -->
-    <section class="space-y-6">
-      <div>
-        <h2 class="text-xl md:text-2xl section-title">
-          <span>6) Feedback breve</span>
-          <span class="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full">
-            UI Pair
-          </span>
+
+    <section>
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-3">
+          <span class="bg-slate-800 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+          Ayuda Contextual
         </h2>
-        <p class="section-sub">Notificaciones rápidas en el mismo flujo</p>
+        <p class="text-slate-500 mt-1 ml-11">La ayuda debe estar integrada en el flujo, justo donde ocurre la duda, no en un PDF aparte.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-        <!-- BAD -->
-        <div class="bad-example p-6 rounded-2xl soft-shadow relative">
-          <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
-            ❌ MALO
-          </div>
-
-          <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
-            <button onclick="alert('...')" class="w-full bg-slate-900 text-white font-black py-2.5 rounded-xl">
-              Guardar
-            </button>
-            <div class="note">Sin confirmación visual dentro de la pantalla</div>
-          </div>
-        </div>
-
-        <!-- GOOD -->
-        <div class="good-example p-6 rounded-2xl soft-shadow relative">
-          <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-black px-3 py-2 rounded-bl-2xl">
-            ✅ CORRECTO
-          </div>
-
-          <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
-            <button class="w-full bg-slate-900 text-white font-black py-2.5 rounded-xl">
-              Guardar
-            </button>
-
-            <div class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-3">
-              <div class="h-9 w-9 rounded-2xl bg-green-50 border border-green-200 flex items-center justify-center">
-                <i class="fa-solid fa-check text-green-700"></i>
-              </div>
-              <div>
-                <div class="font-black text-slate-900 text-sm">Guardado</div>
-                <div class="text-xs text-slate-500">Tus cambios están listos</div>
-              </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <div class="ux-card cognitive-load-high p-6 relative">
+          <div class="absolute top-4 right-4 badge-bad">Ruptura de Flujo</div>
+          <h3 class="font-bold text-slate-900 mb-4">Documentación Externa</h3>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-bold text-slate-700 mb-1">Configuración SMTP</label>
+              <select class="w-full border border-slate-300 rounded p-2 text-slate-600">
+                <option>Seleccionar puerto...</option>
+                <option>Port 25</option>
+                <option>Port 465</option>
+                <option>Port 587</option>
+              </select>
             </div>
-
-            <div class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white p-3">
-              <div class="h-9 w-9 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center">
-                <i class="fa-solid fa-clock text-slate-600"></i>
-              </div>
-              <div>
-                <div class="font-black text-slate-900 text-sm">Sincronizando</div>
-                <div class="text-xs text-slate-500">Se actualiza en segundo plano</div>
-              </div>
+            <div class="flex items-start gap-2 text-xs text-blue-600 bg-blue-50 p-2 rounded">
+              <i class="fa-solid fa-external-link-alt mt-1"></i>
+              <p>Si no sabes qué puerto usar, lee nuestra <a href="#" class="underline font-bold">Wiki Técnica (Capítulo 4)</a>. Te llevará a otra pestaña.</p>
             </div>
           </div>
         </div>
 
+        <div class="ux-card cognitive-load-low p-6 relative">
+          <div class="absolute top-4 right-4 badge-good">Ayuda In-situ</div>
+          <h3 class="font-bold text-slate-900 mb-4">Guía Integrada</h3>
+          
+          <div>
+            <label class="block text-sm font-bold text-slate-700 mb-2">Configuración SMTP</label>
+            
+            <div class="border border-blue-200 bg-blue-50 rounded-lg p-3 relative hover:shadow-md transition cursor-pointer">
+              <div class="flex justify-between items-start">
+                <div>
+                  <p class="font-bold text-blue-900 text-sm">Puerto 587 (TLS)</p>
+                  <p class="text-xs text-blue-700 mt-1">Recomendado para la mayoría de los correos modernos (Gmail, Outlook).</p>
+                </div>
+                <div class="bg-white text-blue-600 rounded-full w-5 h-5 flex items-center justify-center shadow-sm">
+                  <i class="fa-solid fa-check text-xs"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="border border-slate-200 rounded-lg p-3 mt-2 opacity-60 hover:opacity-100 transition cursor-pointer">
+              <p class="font-bold text-slate-700 text-sm">Puerto 25 (Standard)</p>
+              <p class="text-xs text-slate-500 mt-1">Úsalo solo si tienes servidores legacy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="pb-20">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-3">
+          <span class="bg-slate-800 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
+          Diseñar para la Ansiedad (Acciones Destructivas)
+        </h2>
+        <p class="text-slate-500 mt-1 ml-11">Cómo permitir que el usuario cometa errores sin sufrir pánico (Undo vs Confirmación excesiva).</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <div class="ux-card cognitive-load-high p-6 relative">
+          <div class="absolute top-4 right-4 badge-bad">Pánico</div>
+          <h3 class="font-bold text-slate-900 mb-4">Sin Red de Seguridad</h3>
+          
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
+            <span>Proyecto_Final.psd</span>
+            <button class="text-red-500 hover:text-red-700" onclick="alert('¡Archivo borrado permanentemente! No se puede recuperar.')">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+          <p class="text-xs text-slate-500">Si haces clic por error, lo pierdes para siempre. Esto genera miedo al usar la interfaz.</p>
+        </div>
+
+        <div class="ux-card cognitive-load-low p-6 relative">
+          <div class="absolute top-4 right-4 badge-good">Seguridad Psicológica</div>
+          <h3 class="font-bold text-slate-900 mb-4">Deshacer (Undo)</h3>
+          
+          <div id="item-list">
+            <div class="flex items-center justify-between bg-white border border-slate-200 p-3 rounded-lg shadow-sm mb-2 transition-all" id="file-item">
+              <div class="flex items-center gap-3">
+                <i class="fa-solid fa-file-image text-purple-500"></i>
+                <span class="font-medium text-slate-700 text-sm">Proyecto_Final.psd</span>
+              </div>
+              <button onclick="deleteItem()" class="text-slate-400 hover:text-red-500 transition px-2">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </div>
+
+          <div id="undo-toast" class="hidden absolute bottom-4 left-4 right-4 bg-slate-900 text-white p-3 rounded-lg shadow-xl flex justify-between items-center z-10 fade-enter">
+            <span class="text-sm">Archivo eliminado</span>
+            <button onclick="undoDelete()" class="text-sm font-bold text-blue-400 hover:text-blue-300">DESHACER</button>
+          </div>
+
+          <p class="text-xs text-slate-500 mt-2">Permite borrar rápido, pero da 5 segundos para arrepentirse.</p>
+
+          <script>
+            function deleteItem() {
+              document.getElementById('file-item').style.opacity = '0';
+              setTimeout(() => {
+                document.getElementById('file-item').classList.add('hidden');
+                document.getElementById('undo-toast').classList.remove('hidden');
+              }, 200);
+              
+              // Auto ocultar toast
+              setTimeout(() => {
+                document.getElementById('undo-toast').classList.add('hidden');
+              }, 5000);
+            }
+
+            function undoDelete() {
+              document.getElementById('undo-toast').classList.add('hidden');
+              document.getElementById('file-item').classList.remove('hidden');
+              setTimeout(() => {
+                document.getElementById('file-item').style.opacity = '1';
+              }, 50);
+            }
+          </script>
+        </div>
       </div>
     </section>
 
   </div>
+
 </body>
 </html>
