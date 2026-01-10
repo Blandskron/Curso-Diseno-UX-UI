@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Componente Responsive Transformable</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --accent: #38bdf8;
+      --text: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+    }
+
+    /* COMPONENTE BASE */
+    .adaptive-card {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      background: var(--card);
+      border-radius: 20px;
+      overflow: hidden;
+      max-width: 700px;
+      width: 90%;
+      transition: all 0.4s ease;
+      box-shadow: 0 20px 40px rgba(0,0,0,.4);
+    }
+
+    .card-media {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .card-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .card-content h2 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    .card-content p {
+      margin: 0;
+      opacity: .85;
+      line-height: 1.4;
+    }
+
+    .card-content button {
+      margin-top: 12px;
+      align-self: flex-start;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      background: var(--accent);
+      color: #020617;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* 📱 TABLET */
+    @media (max-width: 900px) {
+      .adaptive-card {
+        grid-template-columns: 1fr;
+        grid-template-rows: 180px auto;
+      }
+
+      .card-media {
+        font-size: 2.5rem;
+      }
+    }
+
+    /* 📱 MOBILE – TRANSFORMACIÓN TOTAL */
+    @media (max-width: 480px) {
+      .adaptive-card {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        box-shadow: 0 10px 30px rgba(56,189,248,.6);
+        cursor: pointer;
+      }
+
+      .card-media {
+        font-size: 1.8rem;
+      }
+
+      .card-content {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="adaptive-card">
+    <div class="card-media">⚡</div>
+    <div class="card-content">
+      <h2>Componente Adaptativo</h2>
+      <p>
+        Este elemento cambia completamente su forma y función según el
+        contexto del dispositivo.
+      </p>
+      <button>Explorar</button>
+    </div>
+  </div>
+
+</body>
+</html>
