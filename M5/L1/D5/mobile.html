@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Semantic Layout — Mobile</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: sans-serif; line-height: 1.5; }
+
+    body {
+      padding: 16px;
+    }
+
+    header, footer {
+      padding: 16px 0;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav .spacer {
+      flex: 1;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card {
+      padding: 16px;
+      border: 1px dashed #999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    footer .links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <strong>LOGO</strong>
+      <div class="spacer"></div>
+      <span>☰</span>
+    </nav>
+  </header>
+
+  <main>
+
+    <section>
+      <h1>Heading principal</h1>
+      <p>Texto introductorio en mobile.</p>
+
+      <div class="actions">
+        <button>Acción principal</button>
+        <button>Acción secundaria</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Contenido</h2>
+
+      <div class="cards">
+        <article class="card">
+          <h3>Card</h3>
+          <p>Contenido</p>
+        </article>
+
+        <article class="card">
+          <h3>Card</h3>
+          <p>Contenido</p>
+        </article>
+
+        <article class="card">
+          <h3>Card</h3>
+          <p>Contenido</p>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="links">
+      <a href="#">Footer link</a>
+      <a href="#">Footer link</a>
+      <a href="#">Footer link</a>
+    </div>
+    <small>© 2026</small>
+  </footer>
+
+</body>
+</html>

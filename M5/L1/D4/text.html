@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tipos de Texto en HTML</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 32px;
+        }
+
+        section {
+            background: #ffffff;
+            padding: 24px;
+            margin-bottom: 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+        }
+
+        .label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        code, pre {
+            background: #0f172a;
+            color: #e5e7eb;
+            padding: 12px;
+            border-radius: 8px;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .muted {
+            color: #64748b;
+        }
+
+        .highlight {
+            background: #fde68a;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .error {
+            color: #b91c1c;
+        }
+
+        .success {
+            color: #15803d;
+        }
+    </style>
+</head>
+<body>
+
+<!-- TÍTULOS -->
+<section>
+    <div class="label">Títulos y encabezados</div>
+    <h1>H1 — Título principal (página / vista)</h1>
+    <h2>H2 — Sección principal</h2>
+    <h3>H3 — Subsección</h3>
+    <h4>H4 — Bloque interno</h4>
+    <h5>H5 — Detalle</h5>
+    <h6>H6 — Micro jerarquía</h6>
+</section>
+
+<!-- TEXTO DE LECTURA -->
+<section>
+    <div class="label">Texto de lectura</div>
+    <p>
+        <strong>Párrafo:</strong> texto principal para lectura continua. 
+        Puede contener <em>énfasis</em>, <strong>negritas</strong> o 
+        <span class="highlight">resaltados</span>.
+    </p>
+
+    <p class="muted">
+        Texto secundario / descriptivo. Se usa para aclaraciones, ayudas o contexto.
+    </p>
+</section>
+
+<!-- TEXTO SEMÁNTICO -->
+<section>
+    <div class="label">Texto semántico</div>
+    <p><strong>Strong:</strong> importancia semántica</p>
+    <p><em>Em:</em> énfasis contextual</p>
+    <p><mark>Mark:</mark> texto marcado</p>
+    <p><small>Small:</small> texto legal o aclaratorio</p>
+    <p><del>Del:</del> texto eliminado</p>
+    <p><ins>Ins:</ins> texto insertado</p>
+    <p><abbr title="HyperText Markup Language">HTML</abbr> con abreviatura</p>
+</section>
+
+<!-- LISTAS -->
+<section>
+    <div class="label">Listas</div>
+
+    <ul>
+        <li>Lista no ordenada</li>
+        <li>Ítems sin jerarquía</li>
+    </ul>
+
+    <ol>
+        <li>Lista ordenada</li>
+        <li>Secuencia lógica</li>
+    </ol>
+
+    <dl>
+        <dt>Término</dt>
+        <dd>Definición asociada</dd>
+    </dl>
+</section>
+
+<!-- TEXTO DE UI -->
+<section>
+    <div class="label">Texto de interfaz (UI)</div>
+
+    <p><label>Label de formulario</label></p>
+    <p><button>Botón</button></p>
+    <p><a href="#">Enlace</a></p>
+    <p class="muted">Placeholder / hint / ayuda</p>
+</section>
+
+<!-- ESTADOS -->
+<section>
+    <div class="label">Estados y mensajes</div>
+
+    <p class="success">Mensaje de éxito</p>
+    <p class="error">Mensaje de error</p>
+    <p class="muted">Mensaje informativo</p>
+</section>
+
+<!-- CITAS -->
+<section>
+    <div class="label">Citas</div>
+
+    <blockquote>
+        “Una interfaz no se usa, se interpreta.”
+    </blockquote>
+
+    <cite>— Arquitectura Cognitiva UX</cite>
+</section>
+
+<!-- TEXTO TÉCNICO -->
+<section>
+    <div class="label">Texto técnico</div>
+
+    <p>Texto en línea: <code>console.log("Hola mundo")</code></p>
+
+    <pre>
+function saludar() {
+    console.log("Hola mundo");
+}
+    </pre>
+</section>
+
+<!-- TEXTO ESTRUCTURAL -->
+<section>
+    <div class="label">Texto estructural</div>
+
+    <address>
+        Autor: B. Landskron<br>
+        Chile
+    </address>
+
+    <time datetime="2026-01-12">12 de enero de 2026</time>
+</section>
+
+<!-- TEXTO ACCESIBLE -->
+<section>
+    <div class="label">Accesibilidad</div>
+
+    <p aria-label="Texto accesible">
+        Texto con atributos ARIA para lectores de pantalla
+    </p>
+</section>
+
+</body>
+</html>

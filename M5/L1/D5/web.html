@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Semantic Layout — Web</title>
+
+  <style>
+    /* RESET MINIMO */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: sans-serif; line-height: 1.5; }
+
+    /* ESTRUCTURA GENERAL */
+    body {
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      padding: 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    header, footer {
+      padding: 16px 0;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    nav .spacer {
+      flex: 1;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+    }
+
+    section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 16px;
+    }
+
+    .cards {
+      display: flex;
+      gap: 24px;
+    }
+
+    .card {
+      flex: 1;
+      padding: 16px;
+      border: 1px dashed #999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    footer .links {
+      display: flex;
+      gap: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <header>
+      <nav>
+        <strong>LOGO</strong>
+        <div class="spacer"></div>
+        <a href="#">Link</a>
+        <a href="#">Link</a>
+        <a href="#">Link</a>
+      </nav>
+    </header>
+
+    <main>
+
+      <section>
+        <h1>Heading principal (H1)</h1>
+        <p>Texto introductorio que explica el propósito de la página.</p>
+
+        <div class="actions">
+          <button>Acción 1</button>
+          <button>Acción 2</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Sección de contenido</h2>
+
+        <div class="cards">
+          <article class="card">
+            <h3>Título Card</h3>
+            <p>Contenido de la card.</p>
+            <small>Meta info</small>
+          </article>
+
+          <article class="card">
+            <h3>Título Card</h3>
+            <p>Contenido de la card.</p>
+            <small>Meta info</small>
+          </article>
+
+          <article class="card">
+            <h3>Título Card</h3>
+            <p>Contenido de la card.</p>
+            <small>Meta info</small>
+          </article>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div class="links">
+        <a href="#">Footer link</a>
+        <a href="#">Footer link</a>
+        <a href="#">Footer link</a>
+      </div>
+      <small>© 2026</small>
+    </footer>
+
+  </div>
+
+</body>
+</html>
