@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Paleta Cognitiva — Jerarquía Visual</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --primary: #1F3A8A;   /* Azul profundo */
+      --secondary: #64748B; /* Gris azulado */
+      --success: #16A34A;   /* Verde */
+      --warning: #F59E0B;   /* Ámbar */
+      --error: #DC2626;     /* Rojo */
+      --background: #F8FAFC;/* Blanco frío */
+      --text: #0F172A;      /* Gris muy oscuro */
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      max-width: 720px;
+      margin-bottom: 2rem;
+    }
+
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+    }
+
+    .color-card {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      background: white;
+    }
+
+    .swatch {
+      height: 120px;
+    }
+
+    .content {
+      padding: 1rem;
+    }
+
+    .content h3 {
+      margin: 0 0 0.25rem;
+      font-size: 1.1rem;
+    }
+
+    .hex {
+      font-family: monospace;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 0.5rem;
+    }
+
+    .explanation {
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Paleta de Colores Funcional</h1>
+  <p>
+    Esta paleta está diseñada desde principios de <strong>arquitectura cognitiva,
+    jerarquía visual y percepción humana</strong>.  
+    Cada color cumple una función clara y predecible: no decora, comunica.
+  </p>
+
+  <section class="palette">
+
+    <!-- PRIMARY -->
+    <div class="color-card">
+      <div class="swatch" style="background: var(--primary);"></div>
+      <div class="content">
+        <h3>Primario — Acción Principal</h3>
+        <div class="hex">#1F3A8A</div>
+        <div class="explanation">
+          Azul profundo asociado a confianza, estabilidad y control.
+          Se utiliza para acciones primarias (CTA), enlaces clave y estados activos.
+          Reduce ansiedad y es culturalmente neutro para interfaces críticas.
+        </div>
+      </div>
+    </div>
+
+    <!-- SECONDARY -->
+    <div class="color-card">
+      <div class="swatch" style="background: var(--secondary);"></div>
+      <div class="content">
+        <h3>Secundario — Soporte</h3>
+        <div class="hex">#64748B</div>
+        <div class="explanation">
+          Gris azulado de baja activación emocional.
+          Sirve como soporte visual para textos secundarios, bordes y UI pasiva.
+          No compite con la acción principal ni distrae la atención.
+        </div>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="color-card">
+      <div class="swatch" style="background: var(--success);"></div>
+      <div class="content">
+        <h3>Éxito — Confirmación</h3>
+        <div class="hex">#16A34A</div>
+        <div class="explanation">
+          Verde natural asociado a progreso y resolución correcta.
+          Se usa para feedback positivo, estados completados y confirmaciones.
+          Refuerza sensación de avance sin sobreestimular.
+        </div>
+      </div>
+    </div>
+
+    <!-- WARNING -->
+    <div class="color-card">
+      <div class="swatch" style="background: var(--warning);"></div>
+      <div class="content">
+        <h3>Advertencia — Atención</h3>
+        <div class="hex">#F59E0B</div>
+        <div class="explanation">
+          Ámbar de alta visibilidad pero menor agresividad que el rojo.
+          Indica riesgo, estados intermedios o decisiones reversibles.
+          Llama la atención sin generar pánico cognitivo.
+        </div>
+      </div>
+    </div>
+
+    <!-- ERROR -->
+    <div class="color-card">
+      <div class="swatch" style="background: var(--error);"></div>
+      <div class="content">
+        <h3>Error — Acción Crítica</h3>
+        <div class="hex">#DC2626</div>
+        <div class="explanation">
+          Rojo de alto contraste asociado a peligro y detención.
+          Reservado exclusivamente para errores, bloqueos y acciones destructivas.
+          Su uso limitado mantiene su impacto cognitivo.
+        </div>
+      </div>
+    </div>
+
+    <!-- BACKGROUND -->
+    <div class="color-card">
+      <div class="swatch" style="background: var(--background);"></div>
+      <div class="content">
+        <h3>Fondo — Espacio Cognitivo</h3>
+        <div class="hex">#F8FAFC</div>
+        <div class="explanation">
+          Blanco frío con leve matiz azulado.
+          Reduce fatiga visual frente al blanco puro y mejora legibilidad prolongada.
+          Funciona como espacio negativo activo.
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</body>
+</html>
