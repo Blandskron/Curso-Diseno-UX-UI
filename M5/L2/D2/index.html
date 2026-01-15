@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pixel Perfect UI Kit – Prototipo Alta Fidelidad</title>
+
+  <!--
+    OBJETIVO (PPT 1):
+    - Alta fidelidad: layout completo (sidebar + topbar + dashboard + tabla + formulario + modal + toast)
+    - Pixel Perfect: sistema 8pt, tokens, tamaños enteros, nada “a ojo”
+    - Precisión: todo sale de variables y componentes
+    - Sin decimales: solo px enteros, radios, sombras enteras
+    - Iconografía: SVG 24x24 alineado
+    - Consistencia de marca: paleta + tipografía + estados
+    - Valor dev: clases reutilizables, componentes claros, estados listos
+  -->
+
+  <style>
+    /* =========================
+       DESIGN TOKENS (SISTEMA)
+       ========================= */
+    :root{
+      /* Marca */
+      --brand-50:  #eef2ff;
+      --brand-100: #e0e7ff;
+      --brand-200: #c7d2fe;
+      --brand-500: #20339f;
+      --brand-600: #1b2c87;
+      --brand-700: #16246f;
+
+      /* Neutrales */
+      --bg:       #f6f7fb;
+      --surface:  #ffffff;
+      --surface-2:#fbfbfe;
+      --border:   #e6e7f0;
+      --text:     #14151a;
+      --muted:    #5b5f6b;
+
+      /* Estados */
+      --success:  #0e8f4c;
+      --warning:  #b25c00;
+      --danger:   #c21b2f;
+
+      /* Tipografía */
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+      /* 8pt Grid */
+      --s4:  4px;
+      --s8:  8px;
+      --s12: 12px;
+      --s16: 16px;
+      --s20: 20px;
+      --s24: 24px;
+      --s32: 32px;
+      --s40: 40px;
+      --s48: 48px;
+      --s56: 56px;
+      --s64: 64px;
+
+      /* Layout */
+      --sidebar-w: 280px;
+      --topbar-h:  72px;
+
+      /* Radios */
+      --r8:  8px;
+      --r12: 12px;
+      --r16: 16px;
+
+      /* Sombras (enteras) */
+      --shadow-sm: 0 4px 12px rgba(20,21,26,0.08);
+      --shadow-md: 0 12px 32px rgba(20,21,26,0.12);
+
+      /* Focus */
+      --focus: 0 0 0 4px rgba(32,51,159,0.16);
+    }
+
+    /* =========================
+       RESET CONTROLADO
+       ========================= */
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    html{ font-size:16px; }
+    body{
+      font-family:var(--font);
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+    button, input, select{
+      font-family:inherit;
+      font-size:inherit;
+    }
+
+    /* =========================
+       GRID OVERLAY (Docencia/Figma)
+       ========================= */
+    .grid-overlay{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:0;
+      background-image:
+        linear-gradient(to right, rgba(32,51,159,0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(32,51,159,0.08) 1px, transparent 1px);
+      background-size: var(--s8) var(--s8);
+      z-index:9999;
+    }
+    body.show-grid .grid-overlay{ opacity:1; }
+
+    /* =========================
+       APP SHELL
+       ========================= */
+    .app{
+      display:flex;
+      min-height:100vh;
+    }
+
+    /* =========================
+       SIDEBAR
+       ========================= */
+    .sidebar{
+      width:var(--sidebar-w);
+      background:var(--surface);
+      border-right:1px solid var(--border);
+      padding:var(--s24);
+      display:flex;
+      flex-direction:column;
+      gap:var(--s24);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:var(--s12);
+    }
+    .brand-mark{
+      width:40px;
+      height:40px;
+      border-radius:var(--r12);
+      background:linear-gradient(135deg, var(--brand-500), var(--brand-700));
+      display:grid;
+      place-items:center;
+      box-shadow:var(--shadow-sm);
+    }
+    .brand-mark svg{ width:24px; height:24px; fill:#fff; }
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:var(--s4);
+    }
+    .brand-text strong{ font-size:16px; }
+    .brand-text span{ font-size:12px; color:var(--muted); }
+
+    .nav{
+      display:flex;
+      flex-direction:column;
+      gap:var(--s8);
+    }
+    .nav a{
+      display:flex;
+      align-items:center;
+      gap:var(--s12);
+      padding:var(--s12) var(--s16);
+      border-radius:var(--r12);
+      text-decoration:none;
+      color:var(--text);
+      border:1px solid transparent;
+      transition: background-color 160ms ease, transform 120ms ease;
+    }
+    .nav a svg{ width:24px; height:24px; fill:var(--muted); }
+    .nav a:hover{
+      background:var(--brand-50);
+      transform:translateY(-1px);
+    }
+    .nav a.active{
+      background:var(--brand-100);
+      border-color:var(--brand-200);
+    }
+    .nav a.active svg{ fill:var(--brand-500); }
+
+    .sidebar-card{
+      background:linear-gradient(180deg, var(--brand-50), #fff);
+      border:1px solid var(--brand-200);
+      border-radius:var(--r16);
+      padding:var(--s16);
+      display:flex;
+      flex-direction:column;
+      gap:var(--s12);
+    }
+    .sidebar-card h4{ font-size:14px; }
+    .sidebar-card p{ font-size:12px; color:var(--muted); }
+
+    .sidebar-bottom{
+      margin-top:auto;
+      border-top:1px solid var(--border);
+      padding-top:var(--s16);
+      display:flex;
+      align-items:center;
+      gap:var(--s12);
+    }
+    .avatar{
+      width:40px;
+      height:40px;
+      border-radius:999px;
+      background:var(--brand-100);
+      border:1px solid var(--brand-200);
+      display:grid;
+      place-items:center;
+      font-weight:700;
+      color:var(--brand-700);
+    }
+    .user-meta{
+      display:flex;
+      flex-direction:column;
+      gap:var(--s4);
+      overflow:hidden;
+    }
+    .user-meta strong{ font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .user-meta span{ font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    /* =========================
+       MAIN
+       ========================= */
+    .main{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* =========================
+       TOPBAR
+       ========================= */
+    .topbar{
+      height:var(--topbar-h);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 var(--s32);
+      border-bottom:1px solid var(--border);
+      background:rgba(246,247,251,0.72);
+      backdrop-filter: blur(10px);
+    }
+    .topbar-left{
+      display:flex;
+      flex-direction:column;
+      gap:var(--s4);
+    }
+    .topbar-left h1{
+      font-size:20px;
+      line-height:1.2;
+    }
+    .topbar-left p{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .topbar-actions{
+      display:flex;
+      align-items:center;
+      gap:var(--s12);
+    }
+
+    .search{
+      width:320px;
+      display:flex;
+      align-items:center;
+      gap:var(--s8);
+      padding:var(--s12) var(--s16);
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:999px;
+      box-shadow:0 2px 10px rgba(20,21,26,0.04);
+    }
+    .search svg{ width:16px; height:16px; fill:var(--muted); }
+    .search input{
+      border:none;
+      outline:none;
+      width:100%;
+      background:transparent;
+      color:var(--text);
+    }
+
+    /* =========================
+       BUTTONS (MICROINTERACTIONS)
+       ========================= */
+    .btn{
+      border:none;
+      cursor:pointer;
+      border-radius:var(--r12);
+      padding:var(--s12) var(--s16);
+      display:inline-flex;
+      align-items:center;
+      gap:var(--s8);
+      font-weight:600;
+      transition: transform 120ms ease, background-color 160ms ease, box-shadow 160ms ease;
+      user-select:none;
+    }
+    .btn:focus{ outline:none; box-shadow:var(--focus); }
+    .btn:active{ transform:translateY(1px); }
+
+    .btn-primary{
+      background:var(--brand-500);
+      color:#fff;
+      box-shadow:0 10px 20px rgba(32,51,159,0.18);
+    }
+    .btn-primary:hover{ background:var(--brand-600); transform:translateY(-1px); }
+
+    .btn-ghost{
+      background:var(--surface);
+      color:var(--text);
+      border:1px solid var(--border);
+    }
+    .btn-ghost:hover{ background:var(--surface-2); transform:translateY(-1px); }
+
+    .btn svg{ width:16px; height:16px; fill:currentColor; }
+
+    /* =========================
+       CONTENT AREA
+       ========================= */
+    .content{
+      padding:var(--s32);
+      display:flex;
+      flex-direction:column;
+      gap:var(--s24);
+    }
+
+    /* Hero */
+    .hero{
+      background:linear-gradient(135deg, var(--brand-500), var(--brand-700));
+      border-radius:var(--r16);
+      padding:var(--s32);
+      color:#fff;
+      box-shadow:var(--shadow-md);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      right:-120px;
+      top:-120px;
+      width:320px;
+      height:320px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.12);
+    }
+    .hero h2{ font-size:28px; margin-bottom:var(--s12); }
+    .hero p{ font-size:14px; opacity:0.92; max-width:720px; margin-bottom:var(--s20); }
+    .hero-actions{ display:flex; gap:var(--s12); flex-wrap:wrap; }
+
+    /* Cards grid */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:var(--s16);
+    }
+    .card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--r16);
+      padding:var(--s24);
+      box-shadow:var(--shadow-sm);
+    }
+
+    .stat{
+      grid-column: span 4;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:var(--s16);
+    }
+    .stat h3{ font-size:14px; color:var(--muted); margin-bottom:var(--s8); }
+    .stat strong{ font-size:28px; line-height:1.1; }
+    .stat .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:var(--s8);
+      padding:var(--s8) var(--s12);
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid var(--border);
+      background:var(--surface-2);
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .chip svg{ width:16px; height:16px; fill:var(--muted); }
+
+    /* Table card */
+    .table-card{ grid-column: span 8; }
+    .form-card{ grid-column: span 4; }
+
+    .card-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:var(--s16);
+    }
+    .card-header h3{ font-size:16px; }
+    .card-header p{ font-size:12px; color:var(--muted); margin-top:var(--s4); }
+    .card-title{
+      display:flex;
+      flex-direction:column;
+      gap:var(--s4);
+    }
+
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border:1px solid var(--border);
+      border-radius:var(--r12);
+      background:#fff;
+    }
+    thead th{
+      text-align:left;
+      font-size:12px;
+      color:var(--muted);
+      padding:var(--s12) var(--s16);
+      background:var(--surface-2);
+      border-bottom:1px solid var(--border);
+    }
+    tbody td{
+      padding:var(--s12) var(--s16);
+      border-bottom:1px solid var(--border);
+      font-size:14px;
+      vertical-align:middle;
+    }
+    tbody tr:last-child td{ border-bottom:none; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      padding:var(--s4) var(--s12);
+      border-radius:999px;
+      font-size:12px;
+      font-weight:600;
+      border:1px solid var(--border);
+      background:var(--surface-2);
+      color:var(--muted);
+    }
+    .badge.success{ border-color:rgba(14,143,76,0.32); background:rgba(14,143,76,0.08); color:var(--success); }
+    .badge.warning{ border-color:rgba(178,92,0,0.32); background:rgba(178,92,0,0.08); color:var(--warning); }
+    .badge.danger { border-color:rgba(194,27,47,0.32); background:rgba(194,27,47,0.08); color:var(--danger); }
+
+    /* Form */
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:var(--s8);
+      margin-bottom:var(--s16);
+    }
+    .field label{ font-size:12px; color:var(--muted); font-weight:600; }
+    .input, select{
+      padding:var(--s12) var(--s16);
+      border-radius:var(--r12);
+      border:1px solid var(--border);
+      background:#fff;
+      outline:none;
+      transition: box-shadow 160ms ease, border-color 160ms ease;
+    }
+    .input:focus, select:focus{
+      border-color:var(--brand-200);
+      box-shadow:var(--focus);
+    }
+    .help{ font-size:12px; color:var(--muted); }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:var(--s12);
+    }
+
+    /* =========================
+       MODAL
+       ========================= */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(20,21,26,0.56);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:var(--s32);
+      z-index:5000;
+    }
+    .modal{
+      width:720px;
+      max-width:100%;
+      background:var(--surface);
+      border-radius:var(--r16);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow-md);
+      overflow:hidden;
+    }
+    .modal-head{
+      padding:var(--s20) var(--s24);
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .modal-head h3{ font-size:16px; }
+    .icon-btn{
+      width:40px;
+      height:40px;
+      border-radius:var(--r12);
+      border:1px solid var(--border);
+      background:#fff;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition: background-color 160ms ease, transform 120ms ease;
+    }
+    .icon-btn:hover{ background:var(--surface-2); transform:translateY(-1px); }
+    .icon-btn svg{ width:24px; height:24px; fill:var(--muted); }
+
+    .modal-body{
+      padding:var(--s24);
+      display:flex;
+      flex-direction:column;
+      gap:var(--s16);
+    }
+    .modal-body p{ color:var(--muted); font-size:14px; }
+    .modal-actions{
+      padding:var(--s20) var(--s24);
+      border-top:1px solid var(--border);
+      display:flex;
+      justify-content:flex-end;
+      gap:var(--s12);
+      background:var(--surface-2);
+    }
+
+    /* =========================
+       TOAST
+       ========================= */
+    .toast{
+      position:fixed;
+      right:var(--s24);
+      bottom:var(--s24);
+      width:360px;
+      max-width:calc(100% - 48px);
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--r16);
+      box-shadow:var(--shadow-md);
+      padding:var(--s16);
+      display:none;
+      gap:var(--s12);
+      align-items:flex-start;
+      z-index:6000;
+    }
+    .toast .dot{
+      width:12px;
+      height:12px;
+      border-radius:999px;
+      background:var(--success);
+      margin-top:var(--s4);
+    }
+    .toast strong{ font-size:14px; }
+    .toast p{ font-size:12px; color:var(--muted); margin-top:var(--s4); }
+
+    /* =========================
+       RESPONSIVE (sin decimales)
+       ========================= */
+    @media (max-width: 1080px){
+      .search{ width:240px; }
+      .stat{ grid-column: span 6; }
+      .table-card{ grid-column: span 12; }
+      .form-card{ grid-column: span 12; }
+    }
+    @media (max-width: 840px){
+      .sidebar{ display:none; }
+      .topbar{ padding:0 var(--s16); }
+      .content{ padding:var(--s16); }
+      .search{ display:none; }
+      .stat{ grid-column: span 12; }
+      .row{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <!-- SVG 24x24 -->
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2l8 4v6c0 6-4 10-8 10S4 18 4 12V6l8-4z"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <strong>Pixel Perfect UI</strong>
+          <span>Alta fidelidad · Sistema 8pt</span>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Navegación">
+        <a class="active" href="#">
+          <svg viewBox="0 0 24 24"><path d="M4 10l8-6 8 6v10H4V10z"></path></svg>
+          Dashboard
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 24 24"><path d="M4 6h16v4H4V6zm0 8h16v4H4v-4z"></path></svg>
+          Proyectos
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7v3a3 3 0 01-3 3H8a3 3 0 01-3-3V9a7 7 0 017-7zm-6 20a6 6 0 0112 0H6z"></path></svg>
+          Equipo
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 24 24"><path d="M12 3l2 6h6l-5 4 2 7-5-4-5 4 2-7-5-4h6l2-6z"></path></svg>
+          Calidad UI
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 24 24"><path d="M19 14v7H5v-7H3l9-9 9 9h-2z"></path></svg>
+          Handoff Dev
+        </a>
+      </nav>
+
+      <div class="sidebar-card">
+        <h4>Reglas Pixel Perfect</h4>
+        <p>
+          Espaciado y tamaños en múltiplos de 8px. Íconos 24×24. Estados visibles.
+          Tokens reutilizables.
+        </p>
+        <button class="btn btn-ghost" id="toggleGridBtn" type="button">
+          <svg viewBox="0 0 24 24"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"></path></svg>
+          Mostrar grilla 8px
+        </button>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="avatar" aria-hidden="true">BL</div>
+        <div class="user-meta">
+          <strong>Bastian</strong>
+          <span>Diseño · Alta fidelidad</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1>Dashboard de Prototipo</h1>
+          <p>UI nítida · sin decimales · componentes consistentes</p>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="search" role="search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4a6 6 0 104.47 10.03l4.25 4.25 1.41-1.41-4.25-4.25A6 6 0 0010 4z"></path></svg>
+            <input type="text" placeholder="Buscar componentes..." />
+          </div>
+
+          <button class="btn btn-ghost" id="openModalBtn" type="button">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"></path></svg>
+            Nuevo
+          </button>
+
+          <button class="btn btn-primary" id="showToastBtn" type="button">
+            <svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"></path></svg>
+            Guardar
+          </button>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <main class="content">
+
+        <!-- HERO (Alta fidelidad + marca) -->
+        <section class="hero" aria-label="Hero">
+          <h2>Prototipo Alta Fidelidad (Pixel Perfect)</h2>
+          <p>
+            Este layout está construido con tokens, grilla 8pt, medidas enteras y componentes reutilizables.
+            Incluye navegación, jerarquía tipográfica, estados, microinteracciones y elementos listos para
+            replicar en Figma con precisión.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-ghost" id="toggleGridBtn2" type="button">
+              <svg viewBox="0 0 24 24"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"></path></svg>
+              Grilla 8px
+            </button>
+            <button class="btn btn-primary" id="openModalBtn2" type="button">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"></path></svg>
+              Crear flujo
+            </button>
+          </div>
+        </section>
+
+        <!-- STATS (componentes consistentes) -->
+        <section class="grid" aria-label="Métricas">
+          <div class="card stat">
+            <div>
+              <h3>Componentes</h3>
+              <strong>48</strong>
+            </div>
+            <span class="chip">
+              <svg viewBox="0 0 24 24"><path d="M4 12h16M12 4v16"></path></svg>
+              +8 esta semana
+            </span>
+          </div>
+
+          <div class="card stat">
+            <div>
+              <h3>Íconos (SVG)</h3>
+              <strong>24</strong>
+            </div>
+            <span class="chip">
+              <svg viewBox="0 0 24 24"><path d="M7 7h10v10H7V7z"></path></svg>
+              24×24 grid
+            </span>
+          </div>
+
+          <div class="card stat">
+            <div>
+              <h3>Calidad UI</h3>
+              <strong>98%</strong>
+            </div>
+            <span class="chip">
+              <svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 6-4 10-8 10S4 18 4 12V6l8-4z"></path></svg>
+              Sin decimales
+            </span>
+          </div>
+
+          <!-- TABLE -->
+          <div class="card table-card">
+            <div class="card-header">
+              <div class="card-title">
+                <h3>Checklist Pixel Perfect</h3>
+                <p>Ejemplo de tabla con estados y jerarquía consistente</p>
+              </div>
+              <button class="btn btn-ghost" type="button" id="showToastBtn2">
+                <svg viewBox="0 0 24 24"><path d="M12 3v18m9-9H3"></path></svg>
+                Añadir
+              </button>
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Elemento</th>
+                  <th>Regla</th>
+                  <th>Estado</th>
+                  <th>Owner</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Espaciado</td>
+                  <td>Múltiplos de 8px</td>
+                  <td><span class="badge success">OK</span></td>
+                  <td>Design</td>
+                </tr>
+                <tr>
+                  <td>Posición</td>
+                  <td>Valores enteros</td>
+                  <td><span class="badge success">OK</span></td>
+                  <td>Design</td>
+                </tr>
+                <tr>
+                  <td>Íconos</td>
+                  <td>SVG 24×24</td>
+                  <td><span class="badge warning">Revisar</span></td>
+                  <td>UI</td>
+                </tr>
+                <tr>
+                  <td>Tokens</td>
+                  <td>Colores/Tipografía</td>
+                  <td><span class="badge success">OK</span></td>
+                  <td>System</td>
+                </tr>
+                <tr>
+                  <td>Handoff</td>
+                  <td>Especificación clara</td>
+                  <td><span class="badge danger">Pendiente</span></td>
+                  <td>Dev</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- FORM -->
+          <div class="card form-card">
+            <div class="card-header">
+              <div class="card-title">
+                <h3>Crear componente</h3>
+                <p>Inputs con focus y medidas exactas</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="name">Nombre</label>
+              <input class="input" id="name" type="text" placeholder="Ej: Primary Button" />
+              <div class="help">Usa nombres consistentes (Button/Inputs/Cards).</div>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="size">Tamaño</label>
+                <select id="size">
+                  <option>Small</option>
+                  <option selected>Medium</option>
+                  <option>Large</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="icon">Ícono</label>
+                <select id="icon">
+                  <option selected>24×24</option>
+                  <option>16×16</option>
+                  <option>32×32</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="state">Estado</label>
+              <select id="state">
+                <option selected>Default</option>
+                <option>Hover</option>
+                <option>Active</option>
+                <option>Disabled</option>
+              </select>
+            </div>
+
+            <button class="btn btn-primary" type="button" id="openModalBtn3">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14"></path></svg>
+              Generar especificación
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Especificación Pixel Perfect</h3>
+        <button class="icon-btn" id="closeModalBtn" type="button" aria-label="Cerrar">
+          <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Este modal representa un estado interactivo típico en prototipos de alta fidelidad.
+          Mantiene la misma tipografía, grilla y tokens del sistema. Los paddings, radios y
+          separaciones respetan el módulo de 8px para evitar inconsistencias.
+        </p>
+        <div class="card" style="box-shadow:none; background:var(--surface-2);">
+          <div class="field" style="margin:0;">
+            <label>Notas de handoff</label>
+            <input class="input" type="text" value="No usar decimales en X/Y/W/H. Íconos: 24×24." />
+            <div class="help">Texto de ejemplo para documentar el diseño al equipo dev.</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="closeModalBtn2" type="button">
+          <svg viewBox="0 0 24 24"><path d="M6 12h12"></path></svg>
+          Cancelar
+        </button>
+        <button class="btn btn-primary" id="showToastBtn3" type="button">
+          <svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"></path></svg>
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <div class="dot" aria-hidden="true"></div>
+    <div>
+      <strong>Guardado con éxito</strong>
+      <p>Estado visible (feedback) con estilo consistente y medidas enteras.</p>
+    </div>
+  </div>
+
+  <script>
+    // Interacciones simples (alta fidelidad + microinteracciones)
+    const body = document.body;
+
+    const toggleGrid = () => body.classList.toggle("show-grid");
+
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const openModalButtons = [
+      document.getElementById("openModalBtn"),
+      document.getElementById("openModalBtn2"),
+      document.getElementById("openModalBtn3"),
+    ];
+    const closeModalButtons = [
+      document.getElementById("closeModalBtn"),
+      document.getElementById("closeModalBtn2"),
+    ];
+
+    function openModal(){
+      modalBackdrop.style.display = "flex";
+      modalBackdrop.setAttribute("aria-hidden", "false");
+    }
+
+    function closeModal(){
+      modalBackdrop.style.display = "none";
+      modalBackdrop.setAttribute("aria-hidden", "true");
+    }
+
+    openModalButtons.forEach((btn) => btn && btn.addEventListener("click", openModal));
+    closeModalButtons.forEach((btn) => btn && btn.addEventListener("click", closeModal));
+    modalBackdrop.addEventListener("click", (e) => { if (e.target === modalBackdrop) closeModal(); });
+
+    const toast = document.getElementById("toast");
+    const showToastButtons = [
+      document.getElementById("showToastBtn"),
+      document.getElementById("showToastBtn2"),
+      document.getElementById("showToastBtn3"),
+    ];
+
+    function showToast(){
+      toast.style.display = "flex";
+      window.clearTimeout(showToast._t);
+      showToast._t = window.setTimeout(() => {
+        toast.style.display = "none";
+      }, 2400);
+    }
+    showToastButtons.forEach((btn) => btn && btn.addEventListener("click", showToast));
+
+    const toggleGridBtn = document.getElementById("toggleGridBtn");
+    const toggleGridBtn2 = document.getElementById("toggleGridBtn2");
+    [toggleGridBtn, toggleGridBtn2].forEach((btn) => btn && btn.addEventListener("click", toggleGrid));
+
+    // ESC para cerrar modal (experiencia real)
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+  </script>
+</body>
+</html>
