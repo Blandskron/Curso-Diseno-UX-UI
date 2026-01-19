@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Carrito</title>
+
+  <style>
+    :root{
+      /* Paleta tipo Mercado Libre / Shopify (light, real) */
+      --bg:#f5f5f5;
+      --card:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --shadow:0 1px 2px rgba(0,0,0,.06);
+      --brand:#3483fa;   /* azul e-commerce */
+      --brand2:#00a650;  /* verde “envío gratis / ok” */
+      --warn:#f59e0b;
+      --danger:#ef4444;
+
+      --r8:8px;
+      --r10:10px;
+      --r12:12px;
+    }
+
+    *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;}
+    body{margin:0;background:var(--bg);color:var(--text);}
+    a{color:var(--brand);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+
+    /* Layout */
+    .wrap{max-width:1100px;margin:0 auto;padding:18px 14px;}
+    .topbar{
+      background:#fff;border-bottom:1px solid var(--border);
+    }
+    .topbar .wrap{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:14px;
+    }
+    .logo{
+      display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px;
+    }
+    .logo-badge{
+      width:28px;height:28px;border-radius:7px;background:var(--brand);
+      display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:14px;
+    }
+    .secure{
+      color:var(--muted);font-size:13px;display:flex;align-items:center;gap:8px;
+    }
+    .secure .dot{
+      width:8px;height:8px;border-radius:99px;background:var(--brand2);
+    }
+
+    .grid{
+      display:grid;grid-template-columns: 1fr 360px;gap:14px;align-items:start;
+      margin-top:14px;
+    }
+
+    @media (max-width: 920px){
+      .grid{grid-template-columns:1fr;}
+    }
+
+    /* Cards */
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--r12);
+      box-shadow:var(--shadow);
+    }
+    .card-h{
+      padding:14px 14px 10px;
+      border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+    }
+    .card-h h2{margin:0;font-size:16px;}
+    .card-h .small{font-size:13px;color:var(--muted);}
+
+    /* Cart list */
+    .cart-list{padding:0;}
+    .item{
+      display:grid;
+      grid-template-columns: 96px 1fr 180px;
+      gap:14px;
+      padding:14px;
+      border-bottom:1px solid var(--border);
+      align-items:center;
+    }
+    .item:last-child{border-bottom:none;}
+
+    @media (max-width: 680px){
+      .item{
+        grid-template-columns: 86px 1fr;
+        grid-template-areas:
+          "thumb info"
+          "thumb actions";
+      }
+      .thumb{grid-area:thumb;}
+      .info{grid-area:info;}
+      .actions{grid-area:actions;}
+    }
+
+    .thumb{
+      width:96px;height:96px;border-radius:var(--r10);
+      border:1px solid var(--border);
+      background:linear-gradient(180deg,#fafafa,#f0f0f0);
+      display:flex;align-items:center;justify-content:center;
+      overflow:hidden;
+    }
+    .thumb span{font-size:34px;opacity:.9}
+
+    .info{min-width:0;}
+    .title{margin:0;font-size:14px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .meta{margin-top:6px;display:flex;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:12px;}
+    .tag{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:4px 8px;border-radius:999px;background:#f8fafc;border:1px solid var(--border);
+    }
+    .tag .ok{width:7px;height:7px;border-radius:99px;background:var(--brand2);}
+    .tag .warn{width:7px;height:7px;border-radius:99px;background:var(--warn);}
+
+    .actions{
+      justify-self:end;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:10px;
+    }
+    @media (max-width: 680px){
+      .actions{justify-self:stretch;align-items:flex-start;}
+    }
+
+    .price{
+      display:flex;flex-direction:column;align-items:flex-end;gap:2px;
+    }
+    @media (max-width: 680px){
+      .price{align-items:flex-start;}
+    }
+    .price strong{font-size:16px;}
+    .price span{font-size:12px;color:var(--muted);}
+
+    /* Quantity Stepper (tipo e-commerce real) */
+    .stepper{
+      display:inline-flex;
+      align-items:center;
+      border:1px solid var(--border);
+      border-radius:var(--r10);
+      overflow:hidden;
+      background:#fff;
+    }
+    .stepper button{
+      width:36px;height:34px;
+      border:0;background:#fff;
+      cursor:pointer;
+      font-size:18px;line-height:1;
+      color:var(--text);
+    }
+    .stepper button:hover{background:#f3f4f6;}
+    .stepper button:active{background:#e5e7eb;}
+    .stepper button:disabled{
+      color:#9ca3af;cursor:not-allowed;background:#fafafa;
+    }
+    .qty{
+      min-width:42px;
+      height:34px;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;font-size:14px;
+      border-left:1px solid var(--border);
+      border-right:1px solid var(--border);
+      padding:0 10px;
+    }
+
+    .links{
+      display:flex;gap:12px;font-size:13px;color:var(--muted);
+    }
+    .links a{color:var(--muted);}
+    .links a.danger{color:var(--danger);}
+
+    /* Summary */
+    .summary{padding:12px 14px 14px;}
+    .sum-row{
+      display:flex;justify-content:space-between;gap:10px;
+      padding:8px 0;font-size:14px;
+    }
+    .sum-row.muted{color:var(--muted);font-size:13px;}
+    .sum-row.total{
+      border-top:1px solid var(--border);
+      margin-top:6px;padding-top:12px;
+      font-weight:900;font-size:16px;
+    }
+    .free{color:var(--brand2);font-weight:700;}
+    .coupon{
+      display:flex;gap:8px;margin-top:10px;
+    }
+    .coupon input{
+      flex:1;
+      border:1px solid var(--border);
+      border-radius:var(--r10);
+      padding:10px 10px;
+      font-size:14px;
+      outline:none;
+      background:#fff;
+    }
+    .coupon input:focus{border-color:#c7d2fe;box-shadow:0 0 0 3px rgba(52,131,250,.12);}
+    .btn{
+      border:1px solid var(--border);
+      background:#fff;border-radius:var(--r10);
+      padding:10px 12px;font-weight:700;cursor:pointer;
+    }
+    .btn:hover{background:#f3f4f6;}
+    .cta{
+      width:100%;
+      margin-top:12px;
+      border:0;
+      background:var(--brand);
+      color:#fff;
+      padding:12px 14px;
+      border-radius:var(--r10);
+      font-weight:800;
+      font-size:15px;
+      cursor:pointer;
+    }
+    .cta:hover{filter:brightness(0.98);}
+    .cta:active{transform:translateY(1px);}
+    .fineprint{
+      margin-top:10px;font-size:12px;color:var(--muted);
+      display:flex;gap:10px;flex-wrap:wrap;
+    }
+
+    /* Shipping banner */
+    .banner{
+      margin:12px 14px 0;
+      padding:10px 12px;
+      border-radius:var(--r10);
+      border:1px solid #d1fae5;
+      background:#ecfdf5;
+      color:#065f46;
+      font-size:13px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+    }
+    .banner strong{font-weight:900;}
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <div class="logo">
+        <span class="logo-badge">🛒</span>
+        <span>MiTienda</span>
+      </div>
+      <div class="secure"><span class="dot"></span>Pago seguro • Checkout</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="grid">
+      <!-- LEFT: Cart -->
+      <section class="card">
+        <div class="card-h">
+          <h2>Carrito</h2>
+          <div class="small"><span id="itemsCount">1</span> producto</div>
+        </div>
+
+        <div class="banner">
+          <span><strong>Envío gratis</strong> en compras sobre $25.000</span>
+          <a href="#">Ver condiciones</a>
+        </div>
+
+        <div class="cart-list">
+          <div class="item">
+            <div class="thumb" aria-hidden="true"><span>🎧</span></div>
+
+            <div class="info">
+              <p class="title">Audífonos Bluetooth Inalámbricos (Demo)</p>
+              <div class="meta">
+                <span class="tag"><span class="ok"></span> Stock disponible</span>
+                <span class="tag"><span class="ok"></span> Llega mañana</span>
+                <span class="tag"><span class="warn"></span> Últimas unidades</span>
+              </div>
+            </div>
+
+            <div class="actions">
+              <div class="price">
+                <strong>$<span id="unitPriceTxt">12.990</span></strong>
+                <span>Precio unitario</span>
+              </div>
+
+              <div class="stepper" role="group" aria-label="Selector de cantidad">
+                <button id="minus" aria-label="Disminuir">−</button>
+                <div class="qty" id="qty" aria-live="polite">1</div>
+                <button id="plus" aria-label="Aumentar">+</button>
+              </div>
+
+              <div class="links">
+                <a href="#">Guardar</a>
+                <a class="danger" href="#">Eliminar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Summary -->
+      <aside class="card">
+        <div class="card-h">
+          <h2>Resumen</h2>
+          <div class="small">Total a pagar</div>
+        </div>
+
+        <div class="summary">
+          <div class="sum-row muted">
+            <span>Subtotal</span>
+            <span>$<span id="subtotalTxt">12.990</span></span>
+          </div>
+          <div class="sum-row muted">
+            <span>Envío</span>
+            <span id="shippingTxt">Calculando…</span>
+          </div>
+
+          <div class="coupon">
+            <input id="couponInput" placeholder="Cupón de descuento" />
+            <button class="btn" id="applyCoupon">Aplicar</button>
+          </div>
+
+          <div class="sum-row total">
+            <span>Total</span>
+            <span>$<span id="totalTxt">12.990</span></span>
+          </div>
+
+          <button class="cta" id="checkoutBtn">Continuar compra</button>
+
+          <div class="fineprint">
+            <span>✔ Protección al comprador</span>
+            <span>✔ Devolución fácil</span>
+            <span>✔ Pago seguro</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    // ====== Estado (lo que Figma simula con Variables) ======
+    const unitPrice = 12990;
+    let qty = 1;
+    let couponDiscount = 0; // descuento fijo demo
+
+    // ====== DOM ======
+    const qtyEl = document.getElementById("qty");
+    const minusBtn = document.getElementById("minus");
+    const plusBtn = document.getElementById("plus");
+
+    const itemsCountEl = document.getElementById("itemsCount");
+    const subtotalTxt = document.getElementById("subtotalTxt");
+    const totalTxt = document.getElementById("totalTxt");
+    const shippingTxt = document.getElementById("shippingTxt");
+
+    const couponInput = document.getElementById("couponInput");
+    const applyCoupon = document.getElementById("applyCoupon");
+
+    function formatCLP(n){
+      return n.toLocaleString("es-CL");
+    }
+
+    function calcShipping(subtotal){
+      // Estilo e-commerce real: envío gratis sobre umbral
+      const freeThreshold = 25000;
+      if (subtotal >= freeThreshold) return 0;
+      return 2990;
+    }
+
+    function update(){
+      qtyEl.textContent = qty;
+      itemsCountEl.textContent = qty; // 1 producto, qty = unidades
+
+      const subtotal = unitPrice * qty;
+      const shipping = calcShipping(subtotal);
+      const total = Math.max(subtotal + shipping - couponDiscount, 0);
+
+      subtotalTxt.textContent = formatCLP(subtotal);
+      totalTxt.textContent = formatCLP(total);
+
+      shippingTxt.textContent = shipping === 0 ? "Gratis" : "$" + formatCLP(shipping);
+      if (shipping === 0) shippingTxt.className = "free"; else shippingTxt.className = "";
+
+      // UX real: no bajar de 1 en carrito (si quieres permitir 0 = eliminar, lo cambiamos)
+      minusBtn.disabled = qty === 1;
+    }
+
+    plusBtn.addEventListener("click", () => {
+      qty += 1;
+      update();
+    });
+
+    minusBtn.addEventListener("click", () => {
+      if (qty > 1){
+        qty -= 1;
+        update();
+      }
+    });
+
+    applyCoupon.addEventListener("click", () => {
+      const code = (couponInput.value || "").trim().toUpperCase();
+
+      // Demo: cupones típicos
+      // - SAVE2000 => 2000 off
+      // - ENVIO => envío gratis (simulado como descuento del envío actual)
+      if (code === "SAVE2000"){
+        couponDiscount = 2000;
+      } else if (code === "SAVE5000"){
+        couponDiscount = 5000;
+      } else {
+        couponDiscount = 0;
+      }
+      update();
+    });
+
+    update();
+  </script>
+</body>
+</html>
